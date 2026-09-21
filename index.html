@@ -1,1266 +1,1620 @@
 <div id="active-job-search-lab">
 
-  <style>
-    /* =========================================================
-       ACTIVE JOB SEARCH LAB
-       Self-contained / WordPress friendly
-    ========================================================= */
-
-    #active-job-search-lab,
-    #active-job-search-lab * {
-      box-sizing: border-box;
-    }
-
-    #active-job-search-lab {
-      --ink: #172033;
-      --muted: #667085;
-      --line: #e6e9ef;
-      --soft: #f7f8fb;
-      --white: #ffffff;
-
-      --primary: #6558f5;
-      --primary-dark: #5044da;
-      --primary-soft: #eeecff;
-
-      --green: #168b68;
-      --green-soft: #e8f8f1;
-
-      --gold: #e79b24;
-      --gold-soft: #fff5df;
-
-      --red: #d04f4f;
-      --red-soft: #fff0f0;
-
-      width: 100%;
-      color: var(--ink);
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
-      line-height: 1.55;
-    }
-
-    #active-job-search-lab button,
-    #active-job-search-lab input,
-    #active-job-search-lab textarea,
-    #active-job-search-lab select {
-      font: inherit;
-    }
-
-    #active-job-search-lab button {
-      cursor: pointer;
-    }
-
-    #active-job-search-lab .aj-wrap {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    /* =========================================================
-       HERO
-    ========================================================= */
-
-    #active-job-search-lab .aj-hero {
-      position: relative;
-      overflow: hidden;
-      padding: 74px 0 68px;
-      background:
-        radial-gradient(circle at 82% 20%, rgba(255,255,255,.2), transparent 24%),
-        radial-gradient(circle at 12% 80%, rgba(255,255,255,.12), transparent 26%),
-        linear-gradient(135deg, #25205c 0%, #6558f5 56%, #867cff 100%);
-      color: #fff;
-    }
-
-    #active-job-search-lab .aj-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: .09;
-      background-image:
-        linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-    }
-
-    #active-job-search-lab .aj-hero-grid {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: minmax(0,1.18fr) minmax(300px,.82fr);
-      gap: 46px;
-      align-items: center;
-    }
-
-    #active-job-search-lab .aj-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 13px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(255,255,255,.25);
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      backdrop-filter: blur(10px);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    #active-job-search-lab .aj-hero h1 {
-      max-width: 760px;
-      margin: 0 0 18px;
-      color: #fff;
-      font-size: clamp(40px, 6vw, 74px);
-      line-height: .98;
-      letter-spacing: -.055em;
-    }
-
-    #active-job-search-lab .aj-hero p {
-      max-width: 700px;
-      margin: 0;
-      color: rgba(255,255,255,.86);
-      font-size: clamp(17px, 2vw, 21px);
-    }
-
-    #active-job-search-lab .aj-hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    #active-job-search-lab .aj-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 46px;
-      padding: 12px 18px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--primary);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        background .18s ease;
-    }
-
-    #active-job-search-lab .aj-btn:hover {
-      transform: translateY(-2px);
-      background: var(--primary-dark);
-      box-shadow: 0 10px 24px rgba(41,34,115,.18);
-    }
-
-    #active-job-search-lab .aj-btn-white {
-      background: #fff;
-      color: #342d7a;
-    }
-
-    #active-job-search-lab .aj-btn-white:hover {
-      background: #f7f6ff;
-    }
-
-    #active-job-search-lab .aj-btn-ghost {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--ink);
-      box-shadow: none;
-    }
-
-    #active-job-search-lab .aj-btn-ghost:hover {
-      background: var(--soft);
-    }
-
-    #active-job-search-lab .aj-hero-card {
-      position: relative;
-      min-height: 380px;
-      padding: 28px;
-      border: 1px solid rgba(255,255,255,.24);
-      border-radius: 28px;
-      background: rgba(255,255,255,.13);
-      box-shadow: 0 30px 80px rgba(24,17,84,.28);
-      backdrop-filter: blur(16px);
-    }
-
-    #active-job-search-lab .aj-mini-label {
-      margin-bottom: 18px;
-      color: rgba(255,255,255,.75);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    #active-job-search-lab .aj-roadmap {
-      display: grid;
-      gap: 12px;
-    }
-
-    #active-job-search-lab .aj-roadmap-item {
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 13px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.1);
-    }
-
-    #active-job-search-lab .aj-roadmap-num {
-      display: grid;
-      width: 38px;
-      height: 38px;
-      place-items: center;
-      border-radius: 50%;
-      background: #fff;
-      color: #5044da;
-      font-weight: 800;
-    }
-
-    #active-job-search-lab .aj-roadmap-item strong {
-      display: block;
-      color: #fff;
-      font-size: 14px;
-    }
-
-    #active-job-search-lab .aj-roadmap-item span {
-      color: rgba(255,255,255,.68);
-      font-size: 12px;
-    }
-
-    /* =========================================================
-       PROGRESS
-    ========================================================= */
-
-    #active-job-search-lab .aj-progress-shell {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(12px);
-    }
-
-    #active-job-search-lab .aj-progress-row {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 14px;
-      align-items: center;
-    }
-
-    #active-job-search-lab .aj-progress-label,
-    #active-job-search-lab .aj-progress-percent {
-      font-size: 13px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    #active-job-search-lab .aj-progress-track {
-      height: 9px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #eceef3;
-    }
-
-    #active-job-search-lab .aj-progress-bar {
-      width: 0%;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #6558f5, #9188ff);
-      transition: width .3s ease;
-    }
-
-    /* =========================================================
-       MAIN
-    ========================================================= */
-
-    #active-job-search-lab .aj-main {
-      padding: 56px 0 90px;
-      background: #fff;
-    }
-
-    #active-job-search-lab .aj-section {
-      scroll-margin-top: 90px;
-      margin-bottom: 74px;
-    }
-
-    #active-job-search-lab .aj-section-head {
-      max-width: 800px;
-      margin-bottom: 28px;
-    }
-
-    #active-job-search-lab .aj-step {
-      display: inline-block;
-      margin-bottom: 10px;
-      color: var(--primary);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    #active-job-search-lab h2 {
-      margin: 0 0 10px;
-      color: var(--ink);
-      font-size: clamp(28px,4vw,44px);
-      line-height: 1.08;
-      letter-spacing: -.035em;
-    }
-
-    #active-job-search-lab h3 {
-      margin-top: 0;
-      color: var(--ink);
-    }
-
-    #active-job-search-lab .aj-lede {
-      margin: 0;
-      color: var(--muted);
-      font-size: 18px;
-    }
-
-    #active-job-search-lab .aj-card {
-      padding: 26px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: #fff;
-      box-shadow: 0 10px 32px rgba(31,40,68,.055);
-    }
-
-    #active-job-search-lab .aj-card-soft {
-      background: var(--soft);
-      box-shadow: none;
-    }
-
-    #active-job-search-lab .aj-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2,minmax(0,1fr));
-      gap: 20px;
-    }
-
-    #active-job-search-lab .aj-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3,minmax(0,1fr));
-      gap: 18px;
-    }
-
-    #active-job-search-lab .aj-checkline {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    #active-job-search-lab .aj-checkline:last-child {
-      border-bottom: 0;
-    }
-
-    #active-job-search-lab .aj-checkline input {
-      flex: 0 0 auto;
-      width: 21px;
-      height: 21px;
-      margin-top: 2px;
-      accent-color: var(--primary);
-    }
-
-    #active-job-search-lab .aj-checkline strong {
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    #active-job-search-lab .aj-checkline small {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* =========================================================
-       PASSIVE / ACTIVE FLIP
-    ========================================================= */
-
-    #active-job-search-lab .aj-choice-grid {
-      display: grid;
-      grid-template-columns: repeat(2,minmax(0,1fr));
-      gap: 20px;
-    }
-
-    #active-job-search-lab .aj-choice {
-      position: relative;
-      min-height: 245px;
-      padding: 28px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      border-radius: 24px;
-      background: var(--soft);
-      transition: .2s ease;
-    }
-
-    #active-job-search-lab .aj-choice:hover {
-      transform: translateY(-4px);
-      border-color: #d8d5ff;
-    }
-
-    #active-job-search-lab .aj-choice.active {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-    }
-
-    #active-job-search-lab .aj-choice-icon {
-      display: grid;
-      width: 58px;
-      height: 58px;
-      margin-bottom: 18px;
-      place-items: center;
-      border-radius: 18px;
-      background: #fff;
-      font-size: 28px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.06);
-    }
-
-    #active-job-search-lab .aj-choice h3 {
-      margin-bottom: 8px;
-      font-size: 24px;
-    }
-
-    #active-job-search-lab .aj-choice p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    #active-job-search-lab .aj-choice-reveal {
-      display: none;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(101,88,245,.18);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    #active-job-search-lab .aj-choice.active .aj-choice-reveal {
-      display: block;
-    }
-
-    /* =========================================================
-       FORMS
-    ========================================================= */
-
-    #active-job-search-lab .aj-field {
-      margin-bottom: 17px;
-    }
-
-    #active-job-search-lab .aj-field:last-child {
-      margin-bottom: 0;
-    }
-
-    #active-job-search-lab .aj-field label {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--ink);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    #active-job-search-lab .aj-field input,
-    #active-job-search-lab .aj-field textarea,
-    #active-job-search-lab .aj-field select {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d8dce5;
-      border-radius: 12px;
-      outline: none;
-      background: #fff;
-      color: var(--ink);
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
-
-    #active-job-search-lab .aj-field textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    #active-job-search-lab .aj-field input:focus,
-    #active-job-search-lab .aj-field textarea:focus,
-    #active-job-search-lab .aj-field select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(101,88,245,.1);
-    }
-
-    #active-job-search-lab .aj-helper {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    #active-job-search-lab .aj-action-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    /* =========================================================
-       PROMPT BOX
-    ========================================================= */
-
-    #active-job-search-lab .aj-prompt-box {
-      position: relative;
-      padding: 22px;
-      border-radius: 18px;
-      background: #17152b;
-      color: #f4f2ff;
-    }
-
-    #active-job-search-lab .aj-prompt-box pre {
-      margin: 0;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      color: #f4f2ff;
-      font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
-
-    #active-job-search-lab .aj-copy-status {
-      display: none;
-      margin-top: 10px;
-      color: #a9f0d6;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================================================
-       KEYWORD CHIPS
-    ========================================================= */
-
-    #active-job-search-lab .aj-chip-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    #active-job-search-lab .aj-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: #493dc4;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    #active-job-search-lab .aj-chip button {
-      padding: 0;
-      border: 0;
-      background: none;
-      color: inherit;
-      font-weight: 900;
-    }
-
-    /* =========================================================
-       MESSAGE PREVIEW
-    ========================================================= */
-
-    #active-job-search-lab .aj-preview {
-      min-height: 140px;
-      padding: 22px;
-      border: 1px dashed #c9c6f4;
-      border-radius: 18px;
-      background: #faf9ff;
-    }
-
-    #active-job-search-lab .aj-preview-title {
-      margin-bottom: 10px;
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    /* =========================================================
-       TIMELINE
-    ========================================================= */
-
-    #active-job-search-lab .aj-timeline {
-      position: relative;
-      display: grid;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    #active-job-search-lab .aj-time-item {
-      display: grid;
-      grid-template-columns: 52px 1fr;
-      gap: 14px;
-      align-items: start;
-    }
-
-    #active-job-search-lab .aj-time-dot {
-      display: grid;
-      width: 48px;
-      height: 48px;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-weight: 900;
-    }
-
-    #active-job-search-lab .aj-time-content {
-      padding: 14px 17px;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      background: #fff;
-    }
-
-    #active-job-search-lab .aj-time-content strong {
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    #active-job-search-lab .aj-time-content span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* =========================================================
-       CALLOUTS
-    ========================================================= */
-
-    #active-job-search-lab .aj-callout {
-      padding: 20px;
-      border-left: 4px solid var(--primary);
-      border-radius: 12px;
-      background: var(--primary-soft);
-    }
-
-    #active-job-search-lab .aj-callout strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    #active-job-search-lab .aj-callout p {
-      margin: 0;
-      color: #554d77;
-    }
-
-    #active-job-search-lab .aj-callout-gold {
-      border-left-color: var(--gold);
-      background: var(--gold-soft);
-    }
-
-    /* =========================================================
-       TRACKER TABLE
-    ========================================================= */
-
-    #active-job-search-lab .aj-table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      margin-top: 20px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-    }
-
-    #active-job-search-lab table {
-      width: 100%;
-      min-width: 860px;
-      border-collapse: collapse;
-      background: #fff;
-    }
-
-    #active-job-search-lab th,
-    #active-job-search-lab td {
-      padding: 13px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      font-size: 13px;
-    }
-
-    #active-job-search-lab th {
-      background: #f8f9fb;
-      color: #4b5363;
-      font-size: 11px;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-
-    #active-job-search-lab tr:last-child td {
-      border-bottom: 0;
-    }
-
-    #active-job-search-lab .aj-empty {
-      padding: 28px !important;
-      color: var(--muted);
-      text-align: center !important;
-    }
-
-    #active-job-search-lab .aj-delete {
-      border: 0;
-      background: transparent;
-      color: var(--red);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    /* =========================================================
-       PIPELINE
-    ========================================================= */
-
-    #active-job-search-lab .aj-pipeline-number {
-      margin-bottom: 8px;
-      color: var(--primary);
-      font-size: 58px;
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -.05em;
-    }
-
-    #active-job-search-lab .aj-pipeline-track {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    #active-job-search-lab .aj-pipe-slot {
-      height: 12px;
-      border-radius: 99px;
-      background: #e9ebef;
-    }
-
-    #active-job-search-lab .aj-pipe-slot.on {
-      background: var(--primary);
-    }
-
-    /* =========================================================
-       QUIZ
-    ========================================================= */
-
-    #active-job-search-lab .aj-question {
-      margin-bottom: 18px;
-      padding: 22px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-    }
-
-    #active-job-search-lab .aj-question:last-child {
-      margin-bottom: 0;
-    }
-
-    #active-job-search-lab .aj-question h3 {
-      margin-bottom: 14px;
-      font-size: 18px;
-    }
-
-    #active-job-search-lab .aj-answer {
-      display: block;
-      width: 100%;
-      margin-bottom: 8px;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: #fff;
-      color: var(--ink);
-      text-align: left;
-      transition: .15s ease;
-    }
-
-    #active-job-search-lab .aj-answer:hover {
-      border-color: var(--primary);
-      background: #faf9ff;
-    }
-
-    #active-job-search-lab .aj-answer.correct {
-      border-color: var(--green);
-      background: var(--green-soft);
-      color: #116a50;
-    }
-
-    #active-job-search-lab .aj-answer.wrong {
-      border-color: var(--red);
-      background: var(--red-soft);
-      color: #9e3939;
-    }
-
-    #active-job-search-lab .aj-feedback {
-      display: none;
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================================================
-       COMPLETION
-    ========================================================= */
-
-    #active-job-search-lab .aj-finish {
-      padding: 38px;
-      overflow: hidden;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at 85% 15%, rgba(255,255,255,.2), transparent 28%),
-        linear-gradient(135deg,#24205a,#6558f5);
-      color: #fff;
-      box-shadow: 0 24px 50px rgba(45,37,117,.18);
-    }
-
-    #active-job-search-lab .aj-finish h2,
-    #active-job-search-lab .aj-finish h3 {
-      color: #fff;
-    }
-
-    #active-job-search-lab .aj-finish p {
-      color: rgba(255,255,255,.8);
-    }
-
-    #active-job-search-lab .aj-summary {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 12px;
-      margin: 24px 0;
-    }
-
-    #active-job-search-lab .aj-summary-box {
-      padding: 16px;
-      border-radius: 15px;
-      background: rgba(255,255,255,.12);
-    }
-
-    #active-job-search-lab .aj-summary-box strong {
-      display: block;
-      color: #fff;
-      font-size: 25px;
-    }
-
-    #active-job-search-lab .aj-summary-box span {
-      color: rgba(255,255,255,.7);
-      font-size: 12px;
-    }
-
-    #active-job-search-lab .aj-final-message {
-      margin-top: 24px;
-      padding: 20px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.12);
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    /* =========================================================
-       VIDEO PLACEHOLDER
-    ========================================================= */
-
-    #active-job-search-lab .aj-video {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at center, rgba(255,255,255,.12), transparent 34%),
-        linear-gradient(135deg,#17152b,#302a75);
-    }
-
-    #active-job-search-lab .aj-video-placeholder {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 28px;
-      color: #fff;
-      text-align: center;
-    }
-
-    #active-job-search-lab .aj-play {
-      display: grid;
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 14px;
-      place-items: center;
-      border-radius: 50%;
-      background: #fff;
-      color: var(--primary);
-      font-size: 27px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.18);
-    }
-
-    /* =========================================================
-       TOAST
-    ========================================================= */
-
-    #active-job-search-lab .aj-toast {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 9999;
-      max-width: min(360px,calc(100% - 44px));
-      padding: 13px 16px;
-      border-radius: 12px;
-      background: #17152b;
-      color: #fff;
-      box-shadow: 0 12px 32px rgba(0,0,0,.2);
-      opacity: 0;
-      transform: translateY(12px);
-      pointer-events: none;
-      transition: .2s ease;
-    }
-
-    #active-job-search-lab .aj-toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-    @media (max-width: 850px) {
-      #active-job-search-lab .aj-hero {
-        padding: 52px 0;
-      }
-
-      #active-job-search-lab .aj-hero-grid,
-      #active-job-search-lab .aj-grid-2,
-      #active-job-search-lab .aj-grid-3,
-      #active-job-search-lab .aj-choice-grid {
-        grid-template-columns: 1fr;
-      }
-
-      #active-job-search-lab .aj-hero-card {
-        min-height: auto;
-      }
-
-      #active-job-search-lab .aj-summary {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 560px) {
-      #active-job-search-lab .aj-wrap {
-        width: min(100% - 22px,1180px);
-      }
-
-      #active-job-search-lab .aj-hero h1 {
-        font-size: 42px;
-      }
-
-      #active-job-search-lab .aj-card,
-      #active-job-search-lab .aj-choice,
-      #active-job-search-lab .aj-finish {
-        padding: 20px;
-        border-radius: 18px;
-      }
-
-      #active-job-search-lab .aj-progress-label {
-        display: none;
-      }
-
-      #active-job-search-lab .aj-progress-row {
-        grid-template-columns: 1fr auto;
-      }
-
-      #active-job-search-lab .aj-section {
-        margin-bottom: 56px;
-      }
-    }
-
-    @media print {
-      #active-job-search-lab .aj-hero,
-      #active-job-search-lab .aj-progress-shell,
-      #active-job-search-lab .aj-btn,
-      #active-job-search-lab .aj-delete,
-      #active-job-search-lab .aj-video {
-        display: none !important;
-      }
-
-      #active-job-search-lab .aj-section {
-        break-inside: avoid;
-      }
-
-      #active-job-search-lab .aj-main {
-        padding-top: 0;
-      }
-    }
-  </style>
-
-
-  <!-- ========================================================
-       HERO
-  ========================================================= -->
-
-  <section class="aj-hero">
-    <div class="aj-wrap aj-hero-grid">
-
-      <div>
-        <div class="aj-eyebrow">🎯 Active Job Search Lab</div>
-
-        <h1>Stop applying & hoping.</h1>
-
-        <p>
-          Finding the job is only the beginning. Learn how to tailor your
-          application, connect with real people, follow up, and keep your
-          opportunities moving.
-        </p>
-
-        <div class="aj-hero-actions">
-          <button class="aj-btn aj-btn-white" data-scroll="#aj-start">
-            Start the Lab →
-          </button>
-
-          <button class="aj-btn" data-scroll="#aj-video">
-            ▶ Watch Chris
-          </button>
-        </div>
+<style>
+/* =========================================================
+   ACTIVE JOB SEARCH LAB
+========================================================= */
+
+#active-job-search-lab,
+#active-job-search-lab * {
+  box-sizing: border-box;
+}
+
+#active-job-search-lab {
+  --ink: #172033;
+  --muted: #667085;
+  --line: #e6e9ef;
+  --soft: #f7f8fb;
+  --white: #ffffff;
+
+  --primary: #6558f5;
+  --primary-dark: #5044da;
+  --primary-soft: #eeecff;
+
+  --green: #168b68;
+  --green-soft: #e8f8f1;
+
+  --gold: #e79b24;
+  --gold-soft: #fff5df;
+
+  --red: #d04f4f;
+  --red-soft: #fff0f0;
+
+  width: 100%;
+  color: var(--ink);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  line-height: 1.55;
+}
+
+#active-job-search-lab button,
+#active-job-search-lab input,
+#active-job-search-lab textarea,
+#active-job-search-lab select {
+  font: inherit;
+}
+
+#active-job-search-lab button {
+  cursor: pointer;
+}
+
+#active-job-search-lab .aj-wrap {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+#active-job-search-lab .aj-hero {
+  position: relative;
+  overflow: hidden;
+
+  padding: 72px 0 66px;
+
+  color: #fff;
+
+  background:
+    radial-gradient(
+      circle at 82% 20%,
+      rgba(255,255,255,.2),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 12% 80%,
+      rgba(255,255,255,.12),
+      transparent 26%
+    ),
+    linear-gradient(
+      135deg,
+      #25205c 0%,
+      #6558f5 56%,
+      #867cff 100%
+    );
+}
+
+#active-job-search-lab .aj-hero::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: .09;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.25) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.25) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  pointer-events: none;
+}
+
+#active-job-search-lab .aj-hero-grid {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0,1.18fr)
+    minmax(300px,.82fr);
+
+  gap: 46px;
+  align-items: center;
+}
+
+#active-job-search-lab .aj-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 13px;
+  margin-bottom: 18px;
+
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(10px);
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+#active-job-search-lab .aj-hero h1 {
+  max-width: 760px;
+
+  margin: 0 0 18px;
+
+  color: #fff;
+
+  font-size: clamp(40px,6vw,74px);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+#active-job-search-lab .aj-hero p {
+  max-width: 700px;
+
+  margin: 0;
+
+  color: rgba(255,255,255,.86);
+
+  font-size: clamp(17px,2vw,21px);
+}
+
+#active-job-search-lab .aj-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+#active-job-search-lab .aj-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 46px;
+
+  padding: 12px 18px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: var(--primary);
+  color: #fff;
+
+  text-decoration: none;
+  font-weight: 700;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+#active-job-search-lab .aj-btn:hover {
+  transform: translateY(-2px);
+
+  background: var(--primary-dark);
+
+  box-shadow:
+    0 10px 24px rgba(41,34,115,.18);
+}
+
+#active-job-search-lab .aj-btn-white {
+  background: #fff;
+  color: #342d7a;
+}
+
+#active-job-search-lab .aj-btn-white:hover {
+  background: #f7f6ff;
+}
+
+#active-job-search-lab .aj-btn-ghost {
+  border: 1px solid var(--line);
+
+  background: #fff;
+  color: var(--ink);
+
+  box-shadow: none;
+}
+
+#active-job-search-lab .aj-btn-ghost:hover {
+  background: var(--soft);
+}
+
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+#active-job-search-lab .aj-hero-card {
+  position: relative;
+
+  min-height: 380px;
+
+  padding: 28px;
+
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 28px;
+
+  background: rgba(255,255,255,.13);
+
+  box-shadow:
+    0 30px 80px rgba(24,17,84,.28);
+
+  backdrop-filter: blur(16px);
+}
+
+#active-job-search-lab .aj-mini-label {
+  margin-bottom: 18px;
+
+  color: rgba(255,255,255,.75);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#active-job-search-lab .aj-roadmap {
+  display: grid;
+  gap: 12px;
+}
+
+#active-job-search-lab .aj-roadmap-item {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+
+  gap: 12px;
+  align-items: center;
+
+  padding: 13px;
+
+  border-radius: 16px;
+
+  background: rgba(255,255,255,.1);
+}
+
+#active-job-search-lab .aj-roadmap-num {
+  display: grid;
+
+  width: 38px;
+  height: 38px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #fff;
+  color: #5044da;
+
+  font-weight: 800;
+}
+
+#active-job-search-lab .aj-roadmap-item strong {
+  display: block;
+
+  color: #fff;
+
+  font-size: 14px;
+}
+
+#active-job-search-lab .aj-roadmap-item span {
+  color: rgba(255,255,255,.68);
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+#active-job-search-lab .aj-progress-shell {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid var(--line);
+
+  background: rgba(255,255,255,.94);
+
+  backdrop-filter: blur(12px);
+}
+
+#active-job-search-lab .aj-progress-row {
+  display: grid;
+
+  grid-template-columns: auto 1fr auto;
+
+  gap: 14px;
+  align-items: center;
+}
+
+#active-job-search-lab .aj-progress-label,
+#active-job-search-lab .aj-progress-percent {
+  font-size: 13px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+#active-job-search-lab .aj-progress-track {
+  height: 9px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #eceef3;
+}
+
+#active-job-search-lab .aj-progress-bar {
+  width: 0%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6558f5,
+      #9188ff
+    );
+
+  transition: width .3s ease;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+#active-job-search-lab .aj-main {
+  padding: 56px 0 90px;
+
+  background: #fff;
+}
+
+#active-job-search-lab .aj-section {
+  scroll-margin-top: 90px;
+
+  margin-bottom: 74px;
+}
+
+#active-job-search-lab .aj-section-head {
+  max-width: 800px;
+
+  margin-bottom: 28px;
+}
+
+#active-job-search-lab .aj-step {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: var(--primary);
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#active-job-search-lab h2 {
+  margin: 0 0 10px;
+
+  color: var(--ink);
+
+  font-size: clamp(28px,4vw,44px);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+#active-job-search-lab h3 {
+  margin-top: 0;
+
+  color: var(--ink);
+}
+
+#active-job-search-lab .aj-lede {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   CARDS / GRIDS
+========================================================= */
+
+#active-job-search-lab .aj-card {
+  padding: 26px;
+
+  border: 1px solid var(--line);
+  border-radius: 22px;
+
+  background: #fff;
+
+  box-shadow:
+    0 10px 32px rgba(31,40,68,.055);
+}
+
+#active-job-search-lab .aj-card-soft {
+  background: var(--soft);
+
+  box-shadow: none;
+}
+
+#active-job-search-lab .aj-grid-2 {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap: 20px;
+}
+
+#active-job-search-lab .aj-grid-3 {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+#active-job-search-lab .aj-video {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background: #111;
+
+  box-shadow:
+    0 18px 46px rgba(24,32,51,.14);
+}
+
+#active-job-search-lab .aj-video iframe {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+}
+
+
+/* =========================================================
+   CHECKBOXES
+========================================================= */
+
+#active-job-search-lab .aj-checkline {
+  display: flex;
+
+  gap: 12px;
+  align-items: flex-start;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid var(--line);
+}
+
+#active-job-search-lab .aj-checkline:last-child {
+  border-bottom: 0;
+}
+
+#active-job-search-lab .aj-checkline input {
+  flex: 0 0 auto;
+
+  width: 21px;
+  height: 21px;
+
+  margin-top: 2px;
+
+  accent-color: var(--primary);
+}
+
+#active-job-search-lab .aj-checkline strong {
+  display: block;
+
+  margin-bottom: 2px;
+}
+
+#active-job-search-lab .aj-checkline small {
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+#active-job-search-lab .aj-field {
+  margin-bottom: 17px;
+}
+
+#active-job-search-lab .aj-field:last-child {
+  margin-bottom: 0;
+}
+
+#active-job-search-lab .aj-field label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--ink);
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+#active-job-search-lab .aj-field input,
+#active-job-search-lab .aj-field textarea,
+#active-job-search-lab .aj-field select {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d8dce5;
+  border-radius: 12px;
+
+  outline: none;
+
+  background: #fff;
+  color: var(--ink);
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease;
+}
+
+#active-job-search-lab .aj-field textarea {
+  min-height: 130px;
+
+  resize: vertical;
+}
+
+#active-job-search-lab .aj-field input:focus,
+#active-job-search-lab .aj-field textarea:focus,
+#active-job-search-lab .aj-field select:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 4px rgba(101,88,245,.1);
+}
+
+#active-job-search-lab .aj-helper {
+  margin-top: 6px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+#active-job-search-lab .aj-action-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   PROMPT BOX
+========================================================= */
+
+#active-job-search-lab .aj-prompt-box {
+  position: relative;
+
+  padding: 22px;
+
+  border-radius: 18px;
+
+  background: #17152b;
+  color: #f4f2ff;
+}
+
+#active-job-search-lab .aj-prompt-box pre {
+  margin: 0;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  color: #f4f2ff;
+
+  font:
+    13px/1.6
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+}
+
+#active-job-search-lab .aj-copy-status {
+  display: none;
+
+  margin-top: 10px;
+
+  color: #168b68;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   KEYWORDS
+========================================================= */
+
+#active-job-search-lab .aj-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+#active-job-search-lab .aj-chip {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 8px 11px;
+
+  border-radius: 999px;
+
+  background: var(--primary-soft);
+  color: #493dc4;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#active-job-search-lab .aj-chip button {
+  padding: 0;
+
+  border: 0;
+
+  background: none;
+  color: inherit;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   PREVIEWS
+========================================================= */
+
+#active-job-search-lab .aj-preview {
+  min-height: 140px;
+
+  padding: 22px;
+
+  border: 1px dashed #c9c6f4;
+  border-radius: 18px;
+
+  background: #faf9ff;
+
+  white-space: pre-wrap;
+}
+
+#active-job-search-lab .aj-preview-title {
+  margin-bottom: 10px;
+
+  color: var(--primary);
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+#active-job-search-lab .aj-timeline {
+  display: grid;
+
+  gap: 16px;
+
+  margin-top: 18px;
+}
+
+#active-job-search-lab .aj-time-item {
+  display: grid;
+
+  grid-template-columns: 52px 1fr;
+
+  gap: 14px;
+
+  align-items: start;
+}
+
+#active-job-search-lab .aj-time-dot {
+  display: grid;
+
+  width: 48px;
+  height: 48px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--primary-soft);
+  color: var(--primary);
+
+  font-weight: 900;
+}
+
+#active-job-search-lab .aj-time-content {
+  padding: 14px 17px;
+
+  border: 1px solid var(--line);
+  border-radius: 15px;
+
+  background: #fff;
+}
+
+#active-job-search-lab .aj-time-content strong {
+  display: block;
+
+  margin-bottom: 3px;
+}
+
+#active-job-search-lab .aj-time-content span {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   CALLOUT
+========================================================= */
+
+#active-job-search-lab .aj-callout {
+  padding: 20px;
+
+  border-left: 4px solid var(--primary);
+  border-radius: 12px;
+
+  background: var(--primary-soft);
+}
+
+#active-job-search-lab .aj-callout strong {
+  display: block;
+
+  margin-bottom: 4px;
+}
+
+#active-job-search-lab .aj-callout p {
+  margin: 0;
+
+  color: #554d77;
+}
+
+#active-job-search-lab .aj-callout-gold {
+  border-left-color: var(--gold);
+
+  background: var(--gold-soft);
+}
+
+
+/* =========================================================
+   TRACKER
+========================================================= */
+
+#active-job-search-lab .aj-table-wrap {
+  width: 100%;
+
+  overflow-x: auto;
+
+  margin-top: 20px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+#active-job-search-lab table {
+  width: 100%;
+  min-width: 860px;
+
+  border-collapse: collapse;
+
+  background: #fff;
+}
+
+#active-job-search-lab th,
+#active-job-search-lab td {
+  padding: 13px;
+
+  border-bottom: 1px solid var(--line);
+
+  text-align: left;
+  vertical-align: top;
+
+  font-size: 13px;
+}
+
+#active-job-search-lab th {
+  background: #f8f9fb;
+  color: #4b5363;
+
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+#active-job-search-lab tr:last-child td {
+  border-bottom: 0;
+}
+
+#active-job-search-lab .aj-empty {
+  padding: 28px !important;
+
+  color: var(--muted);
+
+  text-align: center !important;
+}
+
+#active-job-search-lab .aj-delete {
+  border: 0;
+
+  background: transparent;
+  color: var(--red);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   PIPELINE
+========================================================= */
+
+#active-job-search-lab .aj-pipeline-number {
+  margin-bottom: 8px;
+
+  color: var(--primary);
+
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1;
+
+  letter-spacing: -.05em;
+}
+
+#active-job-search-lab .aj-pipeline-track {
+  display: grid;
+
+  grid-template-columns: repeat(5,1fr);
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+#active-job-search-lab .aj-pipe-slot {
+  height: 12px;
+
+  border-radius: 99px;
+
+  background: #e9ebef;
+}
+
+#active-job-search-lab .aj-pipe-slot.on {
+  background: var(--primary);
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+#active-job-search-lab .aj-question {
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+#active-job-search-lab .aj-question:last-child {
+  margin-bottom: 0;
+}
+
+#active-job-search-lab .aj-question h3 {
+  margin-bottom: 14px;
+
+  font-size: 18px;
+}
+
+#active-job-search-lab .aj-answer {
+  display: block;
+
+  width: 100%;
+
+  margin-bottom: 8px;
+  padding: 12px 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 11px;
+
+  background: #fff;
+  color: var(--ink);
+
+  text-align: left;
+
+  transition: .15s ease;
+}
+
+#active-job-search-lab .aj-answer:hover {
+  border-color: var(--primary);
+
+  background: #faf9ff;
+}
+
+#active-job-search-lab .aj-answer.correct {
+  border-color: var(--green);
+
+  background: var(--green-soft);
+  color: #116a50;
+}
+
+#active-job-search-lab .aj-answer.wrong {
+  border-color: var(--red);
+
+  background: var(--red-soft);
+  color: #9e3939;
+}
+
+#active-job-search-lab .aj-feedback {
+  display: none;
+
+  margin-top: 10px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+#active-job-search-lab .aj-finish {
+  padding: 38px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(255,255,255,.2),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #24205a,
+      #6558f5
+    );
+
+  color: #fff;
+
+  box-shadow:
+    0 24px 50px rgba(45,37,117,.18);
+}
+
+#active-job-search-lab .aj-finish h2,
+#active-job-search-lab .aj-finish h3 {
+  color: #fff;
+}
+
+#active-job-search-lab .aj-finish p {
+  color: rgba(255,255,255,.8);
+}
+
+#active-job-search-lab .aj-summary {
+  display: grid;
+
+  grid-template-columns: repeat(3,1fr);
+
+  gap: 12px;
+
+  margin: 24px 0;
+}
+
+#active-job-search-lab .aj-summary-box {
+  padding: 16px;
+
+  border-radius: 15px;
+
+  background: rgba(255,255,255,.12);
+}
+
+#active-job-search-lab .aj-summary-box strong {
+  display: block;
+
+  color: #fff;
+
+  font-size: 25px;
+}
+
+#active-job-search-lab .aj-summary-box span {
+  color: rgba(255,255,255,.7);
+
+  font-size: 12px;
+}
+
+#active-job-search-lab .aj-final-message {
+  margin-top: 24px;
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  background: rgba(255,255,255,.12);
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+#active-job-search-lab .aj-toast {
+  position: fixed;
+
+  right: 22px;
+  bottom: 22px;
+
+  z-index: 9999;
+
+  max-width: min(360px,calc(100% - 44px));
+
+  padding: 13px 16px;
+
+  border-radius: 12px;
+
+  background: #17152b;
+  color: #fff;
+
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.2);
+
+  opacity: 0;
+
+  transform: translateY(12px);
+
+  pointer-events: none;
+
+  transition: .2s ease;
+}
+
+#active-job-search-lab .aj-toast.show {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
+
+  #active-job-search-lab .aj-hero {
+    padding: 52px 0;
+  }
+
+  #active-job-search-lab .aj-hero-grid,
+  #active-job-search-lab .aj-grid-2,
+  #active-job-search-lab .aj-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  #active-job-search-lab .aj-hero-card {
+    min-height: auto;
+  }
+
+  #active-job-search-lab .aj-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+
+  #active-job-search-lab .aj-wrap {
+    width: min(100% - 22px,1180px);
+  }
+
+  #active-job-search-lab .aj-hero h1 {
+    font-size: 42px;
+  }
+
+  #active-job-search-lab .aj-card,
+  #active-job-search-lab .aj-finish {
+    padding: 20px;
+
+    border-radius: 18px;
+  }
+
+  #active-job-search-lab .aj-progress-label {
+    display: none;
+  }
+
+  #active-job-search-lab .aj-progress-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  #active-job-search-lab .aj-section {
+    margin-bottom: 56px;
+  }
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+  #active-job-search-lab .aj-hero,
+  #active-job-search-lab .aj-progress-shell,
+  #active-job-search-lab .aj-btn,
+  #active-job-search-lab .aj-delete,
+  #active-job-search-lab .aj-video {
+    display: none !important;
+  }
+
+  #active-job-search-lab .aj-section {
+    break-inside: avoid;
+  }
+
+  #active-job-search-lab .aj-main {
+    padding-top: 0;
+  }
+}
+</style>
+
+
+<!-- ========================================================
+     HERO
+========================================================= -->
+
+<section class="aj-hero">
+
+  <div class="aj-wrap aj-hero-grid">
+
+    <div>
+
+      <div class="aj-eyebrow">
+        🎯 Active Job Search Lab
       </div>
 
-      <div class="aj-hero-card">
-        <div class="aj-mini-label">Your active-search roadmap</div>
+      <h1>
+        Turn applications into opportunities.
+      </h1>
 
-        <div class="aj-roadmap">
+      <p>
+        Learn how to use AI thoughtfully, tailor your application,
+        connect with real people, follow up, and keep your job-search
+        pipeline moving.
+      </p>
 
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">1</div>
-            <div>
-              <strong>Find the role</strong>
-              <span>Start with a real job description.</span>
-            </div>
-          </div>
+      <div class="aj-hero-actions">
 
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">2</div>
-            <div>
-              <strong>Decode the posting</strong>
-              <span>Identify skills, language, and priorities.</span>
-            </div>
-          </div>
+        <button
+          class="aj-btn aj-btn-white"
+          data-scroll="#aj-video">
+          ▶ Start With Chris
+        </button>
 
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">3</div>
-            <div>
-              <strong>Customize</strong>
-              <span>Resume + cover letter for this role.</span>
-            </div>
-          </div>
+        <button
+          class="aj-btn"
+          data-scroll="#aj-role">
+          Start the Activity →
+        </button>
 
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">4</div>
-            <div>
-              <strong>Connect</strong>
-              <span>Use LinkedIn to find actual humans.</span>
-            </div>
-          </div>
-
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">5</div>
-            <div>
-              <strong>Follow up</strong>
-              <span>Stay visible without being annoying.</span>
-            </div>
-          </div>
-
-          <div class="aj-roadmap-item">
-            <div class="aj-roadmap-num">6</div>
-            <div>
-              <strong>Track + repeat</strong>
-              <span>Keep the pipeline moving.</span>
-            </div>
-          </div>
-
-        </div>
       </div>
 
     </div>
-  </section>
 
 
-  <!-- ========================================================
-       PROGRESS
-  ========================================================= -->
+    <div class="aj-hero-card">
 
-  <div class="aj-progress-shell">
-    <div class="aj-wrap aj-progress-row">
-      <div class="aj-progress-label">Your progress</div>
-
-      <div class="aj-progress-track">
-        <div class="aj-progress-bar" id="aj-progress-bar"></div>
+      <div class="aj-mini-label">
+        Your active-search roadmap
       </div>
 
-      <div class="aj-progress-percent" id="aj-progress-percent">0%</div>
+      <div class="aj-roadmap">
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">1</div>
+
+          <div>
+            <strong>Find the role</strong>
+            <span>Start with a real job description.</span>
+          </div>
+        </div>
+
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">2</div>
+
+          <div>
+            <strong>Decode the posting</strong>
+            <span>Identify skills, language, and priorities.</span>
+          </div>
+        </div>
+
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">3</div>
+
+          <div>
+            <strong>Customize</strong>
+            <span>Build materials specifically for this role.</span>
+          </div>
+        </div>
+
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">4</div>
+
+          <div>
+            <strong>Connect</strong>
+            <span>Use LinkedIn to find actual humans.</span>
+          </div>
+        </div>
+
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">5</div>
+
+          <div>
+            <strong>Follow up</strong>
+            <span>Stay visible after you apply.</span>
+          </div>
+        </div>
+
+
+        <div class="aj-roadmap-item">
+          <div class="aj-roadmap-num">6</div>
+
+          <div>
+            <strong>Track + repeat</strong>
+            <span>Keep your opportunities moving.</span>
+          </div>
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================
+     PROGRESS
+========================================================= -->
+
+<div class="aj-progress-shell">
+
+  <div class="aj-wrap aj-progress-row">
+
+    <div class="aj-progress-label">
+      Your progress
+    </div>
+
+    <div class="aj-progress-track">
+      <div
+        class="aj-progress-bar"
+        id="aj-progress-bar">
+      </div>
+    </div>
+
+    <div
+      class="aj-progress-percent"
+      id="aj-progress-percent">
+      0%
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<main class="aj-main">
+
+<div class="aj-wrap">
+
+
+<!-- ========================================================
+     VIDEO
+========================================================= -->
+
+<section class="aj-section" id="aj-video">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Start here
+    </span>
+
+    <h2>
+      First, watch Chris walk through the process.
+    </h2>
+
+    <p class="aj-lede">
+      In about eight minutes, Chris Bittinger walks through how to
+      find a role, use AI to understand the job description,
+      customize your application, connect with people, follow up,
+      and stay organized.
+    </p>
+
   </div>
 
 
-  <main class="aj-main">
-    <div class="aj-wrap">
+  <div class="aj-video">
+
+    <iframe
+      src="https://www.youtube.com/embed/Qjr7vHqjrNQ?rel=0"
+      title="Active Job Search with Chris Bittinger"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+
+  </div>
 
 
-      <!-- ====================================================
-           VIDEO
-      ===================================================== -->
+  <div
+    class="aj-callout"
+    style="margin-top:20px;">
 
-      <section class="aj-section" id="aj-video">
-        <div class="aj-section-head">
-          <span class="aj-step">Before you start</span>
-          <h2>Watch the process.</h2>
-          <p class="aj-lede">
-            Chris Bittinger walks through the entire active job-search process
-            in about eight minutes. Then you'll actually do it.
-          </p>
+    <strong>
+      🎯 Don't just watch.
+    </strong>
+
+    <p>
+      When the video ends, you're going to use the same process
+      on an actual job opportunity.
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     STEP 1
+========================================================= -->
+
+<section class="aj-section" id="aj-role">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Step 1
+    </span>
+
+    <h2>
+      Bring a real job.
+    </h2>
+
+    <p class="aj-lede">
+      Don't practice with a pretend posting. Find a position
+      you could genuinely imagine applying for and paste the
+      description below.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-2">
+
+
+    <div class="aj-card">
+
+      <div class="aj-field">
+
+        <label for="aj-company">
+          Company
+        </label>
+
+        <input
+          id="aj-company"
+          type="text"
+          placeholder="Example: Allegion">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-role-name">
+          Position
+        </label>
+
+        <input
+          id="aj-role-name"
+          type="text"
+          placeholder="Example: Marketing Coordinator">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-role-url">
+          Employer job-page URL
+        </label>
+
+        <input
+          id="aj-role-url"
+          type="url"
+          placeholder="https://company.com/careers/...">
+
+        <div class="aj-helper">
+          When possible, go directly to the employer's career
+          page and work from the original posting.
         </div>
 
-        <div class="aj-video">
-          <div class="aj-video-placeholder">
-            <div>
-              <div class="aj-play">▶</div>
-              <strong style="font-size:20px;">Chris's video goes here</strong>
-              <div style="margin-top:6px;opacity:.72;font-size:13px;">
-                Replace this placeholder with your YouTube or Vimeo embed.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
+
+    </div>
 
 
-      <!-- ====================================================
-           START
-      ===================================================== -->
+    <div class="aj-card">
 
-      <section class="aj-section" id="aj-start">
-        <div class="aj-section-head">
-          <span class="aj-step">Warm-up</span>
-          <h2>Which job search are you doing?</h2>
-          <p class="aj-lede">
-            Click both cards. One leaves everything to chance. The other gives
-            employers more opportunities to notice you.
-          </p>
-        </div>
+      <div class="aj-field">
 
-        <div class="aj-choice-grid">
+        <label for="aj-description">
+          Paste the job description
+        </label>
 
-          <button type="button" class="aj-choice" data-choice>
-            <div class="aj-choice-icon">🤞</div>
-            <h3>Passive Search</h3>
-            <p>Apply → close the tab → hope somebody calls.</p>
+        <textarea
+          id="aj-description"
+          placeholder="Paste the complete job description here...">
+        </textarea>
 
-            <div class="aj-choice-reveal">
-              Easy? Yes. Strategic? Not really. Your entire search depends on
-              the application doing all of the work.
-            </div>
-          </button>
-
-          <button type="button" class="aj-choice" data-choice data-task="active-choice">
-            <div class="aj-choice-icon">🚀</div>
-            <h3>Active Search</h3>
-            <p>Apply → connect → follow → engage → follow up → track.</p>
-
-            <div class="aj-choice-reveal">
-              This is Chris's approach: make the application one part of a
-              larger relationship-building process.
-            </div>
-          </button>
-
-        </div>
-      </section>
+      </div>
 
 
-      <!-- ====================================================
-           STEP 1
-      ===================================================== -->
+      <label class="aj-checkline">
 
-      <section class="aj-section" id="aj-role">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 1</span>
-          <h2>Bring a real job.</h2>
-          <p class="aj-lede">
-            Don't practice with a pretend posting. Find a position you could
-            genuinely imagine applying for and paste the description below.
-          </p>
-        </div>
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="real-job">
 
-        <div class="aj-grid-2">
+        <span>
 
-          <div class="aj-card">
-            <div class="aj-field">
-              <label for="aj-company">Company</label>
-              <input id="aj-company" type="text" placeholder="Example: Allegion">
-            </div>
+          <strong>
+            I chose a real opportunity.
+          </strong>
 
-            <div class="aj-field">
-              <label for="aj-role-name">Position</label>
-              <input id="aj-role-name" type="text" placeholder="Example: Marketing Coordinator">
-            </div>
+          <small>
+            This is a role I could realistically apply for.
+          </small>
 
-            <div class="aj-field">
-              <label for="aj-role-url">Employer job-page URL</label>
-              <input id="aj-role-url" type="url" placeholder="https://company.com/careers/...">
-              <div class="aj-helper">
-                When possible, Chris recommends applying through the employer's
-                own career site.
-              </div>
-            </div>
-          </div>
+        </span>
 
-          <div class="aj-card">
-            <div class="aj-field">
-              <label for="aj-description">Paste the job description</label>
-              <textarea
-                id="aj-description"
-                placeholder="Paste the complete job description here..."
-              ></textarea>
-            </div>
+      </label>
 
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="real-job">
-              <span>
-                <strong>I chose a real opportunity.</strong>
-                <small>I could reasonably apply for this role.</small>
-              </span>
-            </label>
-          </div>
+    </div>
 
-        </div>
-      </section>
+  </div>
+
+</section>
 
 
-      <!-- ====================================================
-           STEP 2
-      ===================================================== -->
 
-      <section class="aj-section" id="aj-ai">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 2</span>
-          <h2>Make AI your job-description decoder.</h2>
-          <p class="aj-lede">
-            Instead of asking AI to magically "get you the job," use it to
-            understand what the employer is emphasizing.
-          </p>
-        </div>
+<!-- ========================================================
+     STEP 2
+========================================================= -->
 
-        <div class="aj-grid-2">
+<section class="aj-section" id="aj-ai">
 
-          <div class="aj-card">
-            <h3>Build your prompt</h3>
+  <div class="aj-section-head">
 
-            <p style="color:var(--muted);">
-              Paste a job description above, then copy this prompt into the AI
-              tool you use.
-            </p>
+    <span class="aj-step">
+      Step 2
+    </span>
 
-            <div class="aj-prompt-box">
-              <pre id="aj-ai-prompt">Act as a resume and job-description analyst.
+    <h2>
+      Make AI your job-description decoder.
+    </h2>
+
+    <p class="aj-lede">
+      Use AI to figure out what the employer is really
+      emphasizing so you know what deserves attention in your
+      application.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-2">
+
+
+    <div class="aj-card">
+
+      <h3>
+        Build your prompt
+      </h3>
+
+      <p style="color:var(--muted);">
+        Copy this prompt into ChatGPT or the AI tool you use.
+        Your job description will automatically be included.
+      </p>
+
+
+      <div class="aj-prompt-box">
+
+<pre id="aj-ai-prompt">Act as a resume and job-description analyst.
 
 Review the job description below and identify:
 
@@ -1276,822 +1630,1697 @@ I want the application to remain accurate and human.
 
 JOB DESCRIPTION:
 
-[Paste your job description here]</pre>
-            </div>
+[Your job description will be added here]</pre>
 
-            <div class="aj-action-row">
-              <button class="aj-btn" id="aj-copy-ai">
-                Copy AI Prompt
-              </button>
-            </div>
+      </div>
 
-            <div class="aj-copy-status" id="aj-ai-status">
-              ✓ Copied. Paste it into your AI tool.
-            </div>
-          </div>
 
+      <div class="aj-action-row">
 
-          <div class="aj-card">
-            <h3>Capture your keywords</h3>
+        <button
+          class="aj-btn"
+          id="aj-copy-ai">
+          Copy AI Prompt
+        </button>
 
-            <p style="color:var(--muted);">
-              When AI gives you the results, add the most important terms here.
-              Think skills and concepts—not random buzzwords.
-            </p>
+      </div>
 
-            <div class="aj-field">
-              <label for="aj-keyword-input">Add a keyword or skill</label>
-              <input
-                id="aj-keyword-input"
-                type="text"
-                placeholder="Example: project management"
-              >
-            </div>
 
-            <button class="aj-btn aj-btn-ghost" id="aj-add-keyword">
-              + Add Keyword
-            </button>
+      <div
+        class="aj-copy-status"
+        id="aj-ai-status">
 
-            <div class="aj-chip-wrap" id="aj-keywords"></div>
+        ✓ Copied. Paste it into your AI tool.
 
-            <label class="aj-checkline" style="margin-top:18px;">
-              <input type="checkbox" class="aj-task" data-task="keywords">
-              <span>
-                <strong>I reviewed the employer's priorities.</strong>
-                <small>I know which requirements genuinely match my experience.</small>
-              </span>
-            </label>
-
-          </div>
-
-        </div>
-
-        <div class="aj-callout aj-callout-gold" style="margin-top:20px;">
-          <strong>⚠️ Don't turn this into keyword bingo.</strong>
-          <p>
-            Applicant tracking systems vary. The goal is not to game a machine;
-            it's to use the employer's language accurately where it genuinely
-            describes what you can do.
-          </p>
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           STEP 3
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-customize">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 3</span>
-          <h2>Customize. Don't clone.</h2>
-          <p class="aj-lede">
-            Every strong application should feel like it was created for this
-            role—not downloaded from a template factory.
-          </p>
-        </div>
-
-        <div class="aj-grid-2">
-
-          <div class="aj-card">
-            <h3>Resume check</h3>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="resume-1">
-              <span>
-                <strong>Relevant skills are easy to find.</strong>
-                <small>The strongest matches aren't buried at the bottom.</small>
-              </span>
-            </label>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="resume-2">
-              <span>
-                <strong>My bullets prove things.</strong>
-                <small>I use outcomes, examples, or evidence—not just responsibilities.</small>
-              </span>
-            </label>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="resume-3">
-              <span>
-                <strong>The language is accurate.</strong>
-                <small>I have not added skills or credentials I don't actually have.</small>
-              </span>
-            </label>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="resume-4">
-              <span>
-                <strong>This version is tailored.</strong>
-                <small>I wouldn't send this exact resume to every employer.</small>
-              </span>
-            </label>
-          </div>
-
-
-          <div class="aj-card">
-            <h3>Cover letter starter</h3>
-
-            <div class="aj-field">
-              <label for="aj-experience">What should the employer know about you?</label>
-              <textarea
-                id="aj-experience"
-                placeholder="List 2-3 experiences, projects, accomplishments, classes, leadership examples, internships, etc."
-              ></textarea>
-            </div>
-
-            <button class="aj-btn" id="aj-cover-prompt-btn">
-              Copy Cover Letter Prompt
-            </button>
-
-            <div class="aj-copy-status" id="aj-cover-status">
-              ✓ Prompt copied.
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           STEP 4
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-connect">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 4</span>
-          <h2>Now find the humans.</h2>
-          <p class="aj-lede">
-            Chris's big idea: LinkedIn isn't only a place to find job postings.
-            It's a tool for identifying and connecting with people.
-          </p>
-        </div>
-
-        <div class="aj-grid-3">
-
-          <div class="aj-card aj-card-soft">
-            <div style="font-size:32px;margin-bottom:10px;">🏢</div>
-            <h3>Follow the company</h3>
-            <p style="color:var(--muted);">
-              Visit the company page and follow it so hiring updates and company
-              activity begin showing in your feed.
-            </p>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="follow-company">
-              <span><strong>Company followed</strong></span>
-            </label>
-          </div>
-
-          <div class="aj-card aj-card-soft">
-            <div style="font-size:32px;margin-bottom:10px;">🎓</div>
-            <h3>Find common ground</h3>
-            <p style="color:var(--muted);">
-              Search for alumni, shared organizations, mutual connections, or
-              people with similar backgrounds.
-            </p>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="find-alumni">
-              <span><strong>I found a possible connection</strong></span>
-            </label>
-          </div>
-
-          <div class="aj-card aj-card-soft">
-            <div style="font-size:32px;margin-bottom:10px;">🧲</div>
-            <h3>Find recruiting people</h3>
-            <p style="color:var(--muted);">
-              Look for talent acquisition, university recruiting, early-career
-              recruiting, or appropriate HR contacts.
-            </p>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="find-recruiter">
-              <span><strong>I identified a recruiting contact</strong></span>
-            </label>
-          </div>
-
-        </div>
-
-
-        <div class="aj-grid-2" style="margin-top:20px;">
-
-          <div class="aj-card">
-            <h3>Build a connection note</h3>
-
-            <div class="aj-field">
-              <label for="aj-student-name">Your first name</label>
-              <input id="aj-student-name" type="text" placeholder="Chris">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-school">School / program</label>
-              <input id="aj-school" type="text" placeholder="Purdue University">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-contact-name">Person you're contacting</label>
-              <input id="aj-contact-name" type="text" placeholder="Kelly">
-            </div>
-
-            <button class="aj-btn" id="aj-build-connect">
-              Build My Note
-            </button>
-          </div>
-
-
-          <div class="aj-card">
-            <div class="aj-preview-title">Connection note preview</div>
-
-            <div class="aj-preview" id="aj-connect-preview">
-              Add your information and we'll build a short, professional
-              connection message.
-            </div>
-
-            <div class="aj-action-row">
-              <button class="aj-btn aj-btn-ghost" id="aj-copy-connect">
-                Copy Message
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="aj-callout" style="margin-top:20px;">
-          <strong>Relationship rule</strong>
-          <p>
-            You're not opening with “Can you get me a job?” Start with a genuine
-            connection. Let them know why you're reaching out and what you're
-            exploring.
-          </p>
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           STEP 5
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-followup">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 5</span>
-          <h2>Don't disappear after “Submit.”</h2>
-          <p class="aj-lede">
-            Chris recommends following up roughly a week after applying when
-            you haven't heard back.
-          </p>
-        </div>
-
-        <div class="aj-grid-2">
-
-          <div class="aj-card">
-            <h3>Your follow-up clock</h3>
-
-            <div class="aj-field">
-              <label for="aj-applied-date">When did you apply?</label>
-              <input id="aj-applied-date" type="date">
-            </div>
-
-            <div class="aj-callout">
-              <strong>Suggested follow-up date</strong>
-              <p id="aj-followup-date">
-                Choose your application date.
-              </p>
-            </div>
-
-            <div class="aj-timeline">
-
-              <div class="aj-time-item">
-                <div class="aj-time-dot">0</div>
-                <div class="aj-time-content">
-                  <strong>Apply</strong>
-                  <span>Submit a tailored application.</span>
-                </div>
-              </div>
-
-              <div class="aj-time-item">
-                <div class="aj-time-dot">1–6</div>
-                <div class="aj-time-content">
-                  <strong>Connect & learn</strong>
-                  <span>Follow people, read posts, and learn more about the organization.</span>
-                </div>
-              </div>
-
-              <div class="aj-time-item">
-                <div class="aj-time-dot">7</div>
-                <div class="aj-time-content">
-                  <strong>Follow up</strong>
-                  <span>If appropriate and you haven't heard back, send a short professional message.</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-
-          <div class="aj-card">
-            <h3>Build the follow-up</h3>
-
-            <div class="aj-field">
-              <label for="aj-follow-person">Contact's first name</label>
-              <input id="aj-follow-person" type="text" placeholder="Kelly">
-            </div>
-
-            <button class="aj-btn" id="aj-build-follow">
-              Build Follow-Up
-            </button>
-
-            <div class="aj-preview" id="aj-follow-preview" style="margin-top:18px;">
-              Your follow-up will appear here.
-            </div>
-
-            <div class="aj-action-row">
-              <button class="aj-btn aj-btn-ghost" id="aj-copy-follow">
-                Copy Follow-Up
-              </button>
-            </div>
-
-            <label class="aj-checkline" style="margin-top:12px;">
-              <input type="checkbox" class="aj-task" data-task="followup-ready">
-              <span>
-                <strong>My follow-up plan is ready.</strong>
-              </span>
-            </label>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           STEP 6
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-tracker">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 6</span>
-          <h2>If it's not tracked, it's easy to forget.</h2>
-          <p class="aj-lede">
-            Applications, people, interviews, thank-you messages, follow-ups:
-            once you have several opportunities moving, memory is not a system.
-          </p>
-        </div>
-
-        <div class="aj-card">
-
-          <div class="aj-grid-3">
-
-            <div class="aj-field">
-              <label for="aj-track-company">Company</label>
-              <input id="aj-track-company" type="text" placeholder="Company">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-track-role">Position</label>
-              <input id="aj-track-role" type="text" placeholder="Position">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-track-date">Applied</label>
-              <input id="aj-track-date" type="date">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-track-contact">Contact / recruiter</label>
-              <input id="aj-track-contact" type="text" placeholder="Name">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-track-url">LinkedIn / contact URL</label>
-              <input id="aj-track-url" type="url" placeholder="https://linkedin.com/...">
-            </div>
-
-            <div class="aj-field">
-              <label for="aj-track-status">Status</label>
-              <select id="aj-track-status">
-                <option>Applied</option>
-                <option>Follow-Up Due</option>
-                <option>Connected</option>
-                <option>Interview Scheduled</option>
-                <option>Interviewed</option>
-                <option>Thank You Sent</option>
-                <option>Offer</option>
-                <option>Closed</option>
-              </select>
-            </div>
-
-          </div>
-
-          <div class="aj-action-row">
-            <button class="aj-btn" id="aj-add-application">
-              + Add to Tracker
-            </button>
-
-            <button class="aj-btn aj-btn-ghost" id="aj-export-csv">
-              Export CSV
-            </button>
-          </div>
-
-
-          <div class="aj-table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Company</th>
-                  <th>Position</th>
-                  <th>Applied</th>
-                  <th>Contact</th>
-                  <th>URL</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody id="aj-tracker-body">
-                <tr>
-                  <td colspan="7" class="aj-empty">
-                    Your tracker is empty. Add your first application above.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           PIPELINE
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-pipeline">
-        <div class="aj-section-head">
-          <span class="aj-step">Step 7</span>
-          <h2>One interview ≠ stop searching.</h2>
-          <p class="aj-lede">
-            Chris's final advice: keep your pipeline full. An interview is
-            progress, but it isn't the finish line.
-          </p>
-        </div>
-
-        <div class="aj-grid-2">
-
-          <div class="aj-card">
-            <h3>How many active opportunities do you have?</h3>
-
-            <div class="aj-pipeline-number" id="aj-pipeline-number">0</div>
-
-            <input
-              id="aj-pipeline-range"
-              type="range"
-              min="0"
-              max="5"
-              value="0"
-              style="width:100%;accent-color:var(--primary);"
-            >
-
-            <div class="aj-pipeline-track" id="aj-pipeline-track">
-              <div class="aj-pipe-slot"></div>
-              <div class="aj-pipe-slot"></div>
-              <div class="aj-pipe-slot"></div>
-              <div class="aj-pipe-slot"></div>
-              <div class="aj-pipe-slot"></div>
-            </div>
-          </div>
-
-
-          <div class="aj-card aj-card-soft">
-            <h3 id="aj-pipeline-message">Start building your pipeline.</h3>
-
-            <p id="aj-pipeline-copy" style="color:var(--muted);">
-              One opportunity can disappear unexpectedly. Keep searching while
-              existing applications move forward.
-            </p>
-
-            <label class="aj-checkline">
-              <input type="checkbox" class="aj-task" data-task="pipeline">
-              <span>
-                <strong>I will keep applying while interviews are active.</strong>
-              </span>
-            </label>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           QUIZ
-      ===================================================== -->
-
-      <section class="aj-section" id="aj-quiz">
-        <div class="aj-section-head">
-          <span class="aj-step">Knowledge check</span>
-          <h2>Can you run the process without Chris?</h2>
-          <p class="aj-lede">
-            Five quick questions. No pressure. Just make sure the system stuck.
-          </p>
-        </div>
-
-        <div class="aj-card">
-
-          <div class="aj-question" data-question>
-            <h3>1. What's the best use of AI in this process?</h3>
-
-            <button class="aj-answer" data-correct="false">
-              Let AI invent stronger experience for my resume.
-            </button>
-
-            <button class="aj-answer" data-correct="true">
-              Use AI to identify employer priorities and help tailor accurate materials.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Send the exact AI-generated resume to every company.
-            </button>
-
-            <div class="aj-feedback"></div>
-          </div>
-
-
-          <div class="aj-question" data-question>
-            <h3>2. Chris says LinkedIn is especially useful for...</h3>
-
-            <button class="aj-answer" data-correct="false">
-              Clicking Easy Apply as fast as possible.
-            </button>
-
-            <button class="aj-answer" data-correct="true">
-              Finding and connecting with people at the company.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Replacing your resume.
-            </button>
-
-            <div class="aj-feedback"></div>
-          </div>
-
-
-          <div class="aj-question" data-question>
-            <h3>3. Who might be useful to find at a company?</h3>
-
-            <button class="aj-answer" data-correct="true">
-              Talent acquisition, early-career recruiters, alumni, and relevant employees.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Only the CEO.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Nobody. Applying is enough.
-            </button>
-
-            <div class="aj-feedback"></div>
-          </div>
-
-
-          <div class="aj-question" data-question>
-            <h3>4. When should you consider a professional follow-up?</h3>
-
-            <button class="aj-answer" data-correct="false">
-              Five minutes after applying.
-            </button>
-
-            <button class="aj-answer" data-correct="true">
-              Around a week later if appropriate and you haven't heard back.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Never.
-            </button>
-
-            <div class="aj-feedback"></div>
-          </div>
-
-
-          <div class="aj-question" data-question>
-            <h3>5. You scheduled an interview. What now?</h3>
-
-            <button class="aj-answer" data-correct="false">
-              Stop searching until you know the outcome.
-            </button>
-
-            <button class="aj-answer" data-correct="true">
-              Prepare for it—and keep your job-search pipeline moving.
-            </button>
-
-            <button class="aj-answer" data-correct="false">
-              Delete your tracker. Mission accomplished.
-            </button>
-
-            <div class="aj-feedback"></div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- ====================================================
-           FINISH
-      ===================================================== -->
-
-      <section class="aj-section">
-        <div class="aj-finish">
-
-          <span class="aj-step" style="color:#dcd8ff;">
-            Your action plan
-          </span>
-
-          <h2>You're not just applying anymore.</h2>
-
-          <p>
-            You've built a repeatable process for finding opportunities,
-            tailoring applications, making connections, following up, and
-            keeping track of what's next.
-          </p>
-
-          <div class="aj-summary">
-
-            <div class="aj-summary-box">
-              <strong id="aj-summary-progress">0%</strong>
-              <span>Lab completed</span>
-            </div>
-
-            <div class="aj-summary-box">
-              <strong id="aj-summary-apps">0</strong>
-              <span>Applications tracked</span>
-            </div>
-
-            <div class="aj-summary-box">
-              <strong id="aj-summary-quiz">0/5</strong>
-              <span>Knowledge check</span>
-            </div>
-
-          </div>
-
-          <div class="aj-final-message">
-            Passive search = apply and hope.<br>
-            Active search = apply, connect, follow up, track, and keep going.
-          </div>
-
-          <div class="aj-action-row">
-            <button class="aj-btn aj-btn-white" onclick="window.print()">
-              Print My Action Plan
-            </button>
-
-            <button class="aj-btn" id="aj-reset-course">
-              Reset Lab
-            </button>
-          </div>
-
-        </div>
-      </section>
+      </div>
 
     </div>
-  </main>
-
-  <div class="aj-toast" id="aj-toast"></div>
 
 
-  <script>
-  (function () {
 
-    /* =========================================================
-       HELPERS
-    ========================================================= */
+    <div class="aj-card">
 
-    const root = document.getElementById("active-job-search-lab");
+      <h3>
+        Capture your keywords
+      </h3>
 
-    if (!root) return;
+      <p style="color:var(--muted);">
+        When AI gives you the results, add the most important
+        skills and phrases here.
+      </p>
 
-    const $ = (selector) => root.querySelector(selector);
-    const $$ = (selector) => Array.from(root.querySelectorAll(selector));
 
-    const toast = (message) => {
-      const el = $("#aj-toast");
-      el.textContent = message;
-      el.classList.add("show");
+      <div class="aj-field">
 
-      clearTimeout(window.ajToastTimer);
+        <label for="aj-keyword-input">
+          Add a keyword or skill
+        </label>
 
-      window.ajToastTimer = setTimeout(() => {
-        el.classList.remove("show");
-      }, 2400);
-    };
+        <input
+          id="aj-keyword-input"
+          type="text"
+          placeholder="Example: project management">
 
-    const copyText = async (text, successMessage = "Copied!") => {
-      if (!text) return;
+      </div>
 
-      try {
-        await navigator.clipboard.writeText(text);
-        toast(successMessage);
-      } catch (err) {
-        const temp = document.createElement("textarea");
-        temp.value = text;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        temp.remove();
-        toast(successMessage);
+
+      <button
+        class="aj-btn aj-btn-ghost"
+        id="aj-add-keyword">
+
+        + Add Keyword
+
+      </button>
+
+
+      <div
+        class="aj-chip-wrap"
+        id="aj-keywords">
+      </div>
+
+
+      <label
+        class="aj-checkline"
+        style="margin-top:18px;">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="keywords">
+
+        <span>
+
+          <strong>
+            I reviewed the employer's priorities.
+          </strong>
+
+          <small>
+            I know which requirements genuinely match my experience.
+          </small>
+
+        </span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="aj-callout aj-callout-gold"
+    style="margin-top:20px;">
+
+    <strong>
+      ⚠️ Don't turn this into keyword bingo.
+    </strong>
+
+    <p>
+      The goal isn't to trick an applicant tracking system.
+      It's to understand the employer's language and use it
+      naturally when it accurately describes your experience.
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     STEP 3
+========================================================= -->
+
+<section class="aj-section" id="aj-customize">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Step 3
+    </span>
+
+    <h2>
+      Customize. Don't clone.
+    </h2>
+
+    <p class="aj-lede">
+      Your application should feel like it was created for this
+      opportunity—not sent to twenty companies unchanged.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-2">
+
+
+    <div class="aj-card">
+
+      <h3>
+        Resume check
+      </h3>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="resume-1">
+
+        <span>
+
+          <strong>
+            Relevant skills are easy to find.
+          </strong>
+
+          <small>
+            My strongest matches aren't buried.
+          </small>
+
+        </span>
+
+      </label>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="resume-2">
+
+        <span>
+
+          <strong>
+            My bullets prove things.
+          </strong>
+
+          <small>
+            I use examples, outcomes, or evidence rather than
+            simply listing responsibilities.
+          </small>
+
+        </span>
+
+      </label>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="resume-3">
+
+        <span>
+
+          <strong>
+            Everything is accurate.
+          </strong>
+
+          <small>
+            I haven't added skills or credentials I don't have.
+          </small>
+
+        </span>
+
+      </label>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="resume-4">
+
+        <span>
+
+          <strong>
+            This version is tailored.
+          </strong>
+
+          <small>
+            I wouldn't send this exact resume to every employer.
+          </small>
+
+        </span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="aj-card">
+
+      <h3>
+        Build your cover-letter prompt
+      </h3>
+
+
+      <div class="aj-field">
+
+        <label for="aj-experience">
+          What should this employer know about you?
+        </label>
+
+        <textarea
+          id="aj-experience"
+          placeholder="Add 2-3 relevant experiences, projects, accomplishments, classes, internships, leadership examples, etc.">
+        </textarea>
+
+      </div>
+
+
+      <button
+        class="aj-btn"
+        id="aj-cover-prompt-btn">
+
+        Copy Cover Letter Prompt
+
+      </button>
+
+
+      <div
+        class="aj-copy-status"
+        id="aj-cover-status">
+
+        ✓ Prompt copied.
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     STEP 4
+========================================================= -->
+
+<section class="aj-section" id="aj-connect">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Step 4
+    </span>
+
+    <h2>
+      Now find the humans.
+    </h2>
+
+    <p class="aj-lede">
+      Use LinkedIn as more than a job board. Use it to identify
+      the actual people connected to the organization and the
+      hiring process.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-3">
+
+
+    <div class="aj-card aj-card-soft">
+
+      <div style="font-size:32px;margin-bottom:10px;">
+        🏢
+      </div>
+
+      <h3>
+        Follow the company
+      </h3>
+
+      <p style="color:var(--muted);">
+        Follow the organization's page so hiring updates,
+        company news, and employee posts begin appearing in
+        your feed.
+      </p>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="follow-company">
+
+        <span>
+          <strong>
+            Company followed
+          </strong>
+        </span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="aj-card aj-card-soft">
+
+      <div style="font-size:32px;margin-bottom:10px;">
+        🎓
+      </div>
+
+      <h3>
+        Find common ground
+      </h3>
+
+      <p style="color:var(--muted);">
+        Search for alumni, mutual connections, shared
+        organizations, or people with similar backgrounds.
+      </p>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="find-alumni">
+
+        <span>
+          <strong>
+            I found a possible connection
+          </strong>
+        </span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="aj-card aj-card-soft">
+
+      <div style="font-size:32px;margin-bottom:10px;">
+        🧲
+      </div>
+
+      <h3>
+        Find recruiting people
+      </h3>
+
+      <p style="color:var(--muted);">
+        Look for talent acquisition, university recruiting,
+        early-career recruiting, or an appropriate HR contact.
+      </p>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="find-recruiter">
+
+        <span>
+          <strong>
+            I identified a recruiting contact
+          </strong>
+        </span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+
+
+  <div
+    class="aj-grid-2"
+    style="margin-top:20px;">
+
+
+    <div class="aj-card">
+
+      <h3>
+        Build a connection note
+      </h3>
+
+
+      <div class="aj-field">
+
+        <label for="aj-student-name">
+          Your first name
+        </label>
+
+        <input
+          id="aj-student-name"
+          type="text"
+          placeholder="Chris">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-school">
+          School / program
+        </label>
+
+        <input
+          id="aj-school"
+          type="text"
+          placeholder="Purdue University">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-contact-name">
+          Person you're contacting
+        </label>
+
+        <input
+          id="aj-contact-name"
+          type="text"
+          placeholder="Kelly">
+
+      </div>
+
+
+      <button
+        class="aj-btn"
+        id="aj-build-connect">
+
+        Build My Note
+
+      </button>
+
+    </div>
+
+
+
+    <div class="aj-card">
+
+      <div class="aj-preview-title">
+        Connection note preview
+      </div>
+
+
+      <div
+        class="aj-preview"
+        id="aj-connect-preview">
+
+        Add your information and we'll build a short,
+        professional connection message.
+
+      </div>
+
+
+      <div class="aj-action-row">
+
+        <button
+          class="aj-btn aj-btn-ghost"
+          id="aj-copy-connect">
+
+          Copy Message
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="aj-callout"
+    style="margin-top:20px;">
+
+    <strong>
+      Relationship rule
+    </strong>
+
+    <p>
+      You're not opening with “Can you get me a job?”
+      Start with a genuine connection and let them know why
+      you're interested in the organization.
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     STEP 5
+========================================================= -->
+
+<section class="aj-section" id="aj-followup">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Step 5
+    </span>
+
+    <h2>
+      Don't disappear after “Submit.”
+    </h2>
+
+    <p class="aj-lede">
+      If you haven't heard back, Chris recommends following up
+      approximately one week after applying.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-2">
+
+
+    <div class="aj-card">
+
+      <h3>
+        Your follow-up clock
+      </h3>
+
+
+      <div class="aj-field">
+
+        <label for="aj-applied-date">
+          When did you apply?
+        </label>
+
+        <input
+          id="aj-applied-date"
+          type="date">
+
+      </div>
+
+
+      <div class="aj-callout">
+
+        <strong>
+          Suggested follow-up date
+        </strong>
+
+        <p id="aj-followup-date">
+          Choose your application date.
+        </p>
+
+      </div>
+
+
+      <div class="aj-timeline">
+
+
+        <div class="aj-time-item">
+
+          <div class="aj-time-dot">
+            0
+          </div>
+
+          <div class="aj-time-content">
+
+            <strong>
+              Apply
+            </strong>
+
+            <span>
+              Submit a tailored application.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="aj-time-item">
+
+          <div class="aj-time-dot">
+            1–6
+          </div>
+
+          <div class="aj-time-content">
+
+            <strong>
+              Connect & learn
+            </strong>
+
+            <span>
+              Follow people, read posts, and learn about
+              the organization.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="aj-time-item">
+
+          <div class="aj-time-dot">
+            7
+          </div>
+
+          <div class="aj-time-content">
+
+            <strong>
+              Follow up
+            </strong>
+
+            <span>
+              If you haven't heard back, send a short,
+              professional follow-up.
+            </span>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+    <div class="aj-card">
+
+      <h3>
+        Build the follow-up
+      </h3>
+
+
+      <div class="aj-field">
+
+        <label for="aj-follow-person">
+          Contact's first name
+        </label>
+
+        <input
+          id="aj-follow-person"
+          type="text"
+          placeholder="Kelly">
+
+      </div>
+
+
+      <button
+        class="aj-btn"
+        id="aj-build-follow">
+
+        Build Follow-Up
+
+      </button>
+
+
+      <div
+        class="aj-preview"
+        id="aj-follow-preview"
+        style="margin-top:18px;">
+
+        Your follow-up will appear here.
+
+      </div>
+
+
+      <div class="aj-action-row">
+
+        <button
+          class="aj-btn aj-btn-ghost"
+          id="aj-copy-follow">
+
+          Copy Follow-Up
+
+        </button>
+
+      </div>
+
+
+      <label
+        class="aj-checkline"
+        style="margin-top:12px;">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="followup-ready">
+
+        <span>
+
+          <strong>
+            My follow-up plan is ready.
+          </strong>
+
+        </span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     STEP 6
+========================================================= -->
+
+<section class="aj-section" id="aj-tracker">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Step 6
+    </span>
+
+    <h2>
+      Keep everything in one place.
+    </h2>
+
+    <p class="aj-lede">
+      Once you have multiple applications, contacts, interviews,
+      and follow-ups moving at once, memory isn't enough.
+      Build your tracker.
+    </p>
+
+  </div>
+
+
+  <div class="aj-card">
+
+
+    <div class="aj-grid-3">
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-company">
+          Company
+        </label>
+
+        <input
+          id="aj-track-company"
+          type="text"
+          placeholder="Company">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-role">
+          Position
+        </label>
+
+        <input
+          id="aj-track-role"
+          type="text"
+          placeholder="Position">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-date">
+          Applied
+        </label>
+
+        <input
+          id="aj-track-date"
+          type="date">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-contact">
+          Contact / recruiter
+        </label>
+
+        <input
+          id="aj-track-contact"
+          type="text"
+          placeholder="Name">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-url">
+          LinkedIn / contact URL
+        </label>
+
+        <input
+          id="aj-track-url"
+          type="url"
+          placeholder="https://linkedin.com/...">
+
+      </div>
+
+
+      <div class="aj-field">
+
+        <label for="aj-track-status">
+          Status
+        </label>
+
+        <select id="aj-track-status">
+
+          <option>
+            Applied
+          </option>
+
+          <option>
+            Follow-Up Due
+          </option>
+
+          <option>
+            Connected
+          </option>
+
+          <option>
+            Interview Scheduled
+          </option>
+
+          <option>
+            Interviewed
+          </option>
+
+          <option>
+            Thank You Sent
+          </option>
+
+          <option>
+            Offer
+          </option>
+
+          <option>
+            Closed
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="aj-action-row">
+
+      <button
+        class="aj-btn"
+        id="aj-add-application">
+
+        + Add to Tracker
+
+      </button>
+
+
+      <button
+        class="aj-btn aj-btn-ghost"
+        id="aj-export-csv">
+
+        Export CSV
+
+      </button>
+
+    </div>
+
+
+    <div class="aj-table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Company</th>
+            <th>Position</th>
+            <th>Applied</th>
+            <th>Contact</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th></th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="aj-tracker-body">
+
+          <tr>
+
+            <td
+              colspan="7"
+              class="aj-empty">
+
+              Your tracker is empty.
+              Add your first application above.
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     PIPELINE
+========================================================= -->
+
+<section class="aj-section" id="aj-pipeline">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      One more thing
+    </span>
+
+    <h2>
+      One interview doesn't mean stop searching.
+    </h2>
+
+    <p class="aj-lede">
+      Keep the pipeline full. An interview is progress,
+      but it isn't the finish line.
+    </p>
+
+  </div>
+
+
+  <div class="aj-grid-2">
+
+
+    <div class="aj-card">
+
+      <h3>
+        How many active opportunities do you have?
+      </h3>
+
+
+      <div
+        class="aj-pipeline-number"
+        id="aj-pipeline-number">
+
+        0
+
+      </div>
+
+
+      <input
+        id="aj-pipeline-range"
+        type="range"
+        min="0"
+        max="5"
+        value="0"
+        style="width:100%;accent-color:var(--primary);">
+
+
+      <div
+        class="aj-pipeline-track"
+        id="aj-pipeline-track">
+
+        <div class="aj-pipe-slot"></div>
+        <div class="aj-pipe-slot"></div>
+        <div class="aj-pipe-slot"></div>
+        <div class="aj-pipe-slot"></div>
+        <div class="aj-pipe-slot"></div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="aj-card aj-card-soft">
+
+      <h3 id="aj-pipeline-message">
+        Start building your pipeline.
+      </h3>
+
+
+      <p
+        id="aj-pipeline-copy"
+        style="color:var(--muted);">
+
+        One opportunity can disappear unexpectedly.
+        Keep searching while existing applications move forward.
+
+      </p>
+
+
+      <label class="aj-checkline">
+
+        <input
+          type="checkbox"
+          class="aj-task"
+          data-task="pipeline">
+
+        <span>
+
+          <strong>
+            I will keep applying while interviews are active.
+          </strong>
+
+        </span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     QUIZ
+========================================================= -->
+
+<section class="aj-section" id="aj-quiz">
+
+  <div class="aj-section-head">
+
+    <span class="aj-step">
+      Knowledge check
+    </span>
+
+    <h2>
+      Can you run the process yourself?
+    </h2>
+
+    <p class="aj-lede">
+      Five quick questions to make sure the strategy stuck.
+    </p>
+
+  </div>
+
+
+  <div class="aj-card">
+
+
+    <div
+      class="aj-question"
+      data-question>
+
+      <h3>
+        1. What's the best use of AI in this process?
+      </h3>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Let AI invent stronger experience for my resume.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="true">
+
+        Use AI to identify employer priorities and help tailor
+        accurate materials.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Send the exact AI-generated resume to every company.
+
+      </button>
+
+
+      <div class="aj-feedback"></div>
+
+    </div>
+
+
+
+    <div
+      class="aj-question"
+      data-question>
+
+      <h3>
+        2. Chris says LinkedIn is especially useful for...
+      </h3>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Clicking Easy Apply as fast as possible.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="true">
+
+        Finding and connecting with people at the company.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Replacing your resume.
+
+      </button>
+
+
+      <div class="aj-feedback"></div>
+
+    </div>
+
+
+
+    <div
+      class="aj-question"
+      data-question>
+
+      <h3>
+        3. Who might be useful to find at a company?
+      </h3>
+
+
+      <button
+        class="aj-answer"
+        data-correct="true">
+
+        Talent acquisition, early-career recruiters, alumni,
+        and relevant employees.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Only the CEO.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Nobody. Applying is enough.
+
+      </button>
+
+
+      <div class="aj-feedback"></div>
+
+    </div>
+
+
+
+    <div
+      class="aj-question"
+      data-question>
+
+      <h3>
+        4. When should you consider a professional follow-up?
+      </h3>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Five minutes after applying.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="true">
+
+        Around a week later if you haven't heard back.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Never.
+
+      </button>
+
+
+      <div class="aj-feedback"></div>
+
+    </div>
+
+
+
+    <div
+      class="aj-question"
+      data-question>
+
+      <h3>
+        5. You scheduled an interview. What now?
+      </h3>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Stop searching until you know the outcome.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="true">
+
+        Prepare for it—and keep your job-search pipeline moving.
+
+      </button>
+
+
+      <button
+        class="aj-answer"
+        data-correct="false">
+
+        Delete your tracker. Mission accomplished.
+
+      </button>
+
+
+      <div class="aj-feedback"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     FINISH
+========================================================= -->
+
+<section class="aj-section">
+
+  <div class="aj-finish">
+
+
+    <span
+      class="aj-step"
+      style="color:#dcd8ff;">
+
+      Your action plan
+
+    </span>
+
+
+    <h2>
+      You're ready to run an active job search.
+    </h2>
+
+
+    <p>
+      You now have a repeatable system for identifying
+      opportunities, tailoring applications, connecting with
+      people, following up, and keeping everything organized.
+    </p>
+
+
+    <div class="aj-summary">
+
+
+      <div class="aj-summary-box">
+
+        <strong id="aj-summary-progress">
+          0%
+        </strong>
+
+        <span>
+          Lab completed
+        </span>
+
+      </div>
+
+
+      <div class="aj-summary-box">
+
+        <strong id="aj-summary-apps">
+          0
+        </strong>
+
+        <span>
+          Applications tracked
+        </span>
+
+      </div>
+
+
+      <div class="aj-summary-box">
+
+        <strong id="aj-summary-quiz">
+          0/5
+        </strong>
+
+        <span>
+          Knowledge check
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="aj-final-message">
+
+      Find → Decode → Customize → Apply → Connect → Follow Up → Track → Repeat
+
+    </div>
+
+
+    <div class="aj-action-row">
+
+      <button
+        class="aj-btn aj-btn-white"
+        onclick="window.print()">
+
+        Print My Action Plan
+
+      </button>
+
+
+      <button
+        class="aj-btn"
+        id="aj-reset-course">
+
+        Reset Lab
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<div
+  class="aj-toast"
+  id="aj-toast">
+</div>
+
+
+
+<script>
+(function () {
+
+const root =
+  document.getElementById("active-job-search-lab");
+
+if (!root) return;
+
+
+const $ =
+  selector =>
+    root.querySelector(selector);
+
+
+const $$ =
+  selector =>
+    Array.from(
+      root.querySelectorAll(selector)
+    );
+
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+const toast = message => {
+
+  const el =
+    $("#aj-toast");
+
+  el.textContent =
+    message;
+
+  el.classList.add("show");
+
+  clearTimeout(
+    window.ajToastTimer
+  );
+
+  window.ajToastTimer =
+    setTimeout(() => {
+
+      el.classList.remove("show");
+
+    },2400);
+
+};
+
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+const copyText =
+async (
+  text,
+  successMessage = "Copied!"
+) => {
+
+  if (!text) return;
+
+  try {
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+    toast(successMessage);
+
+  }
+
+  catch (err) {
+
+    const temp =
+      document.createElement(
+        "textarea"
+      );
+
+    temp.value =
+      text;
+
+    document.body.appendChild(
+      temp
+    );
+
+    temp.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    temp.remove();
+
+    toast(successMessage);
+
+  }
+
+};
+
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+$$("[data-scroll]")
+.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      const target =
+        $(button.dataset.scroll);
+
+      if (target) {
+
+        target.scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        });
+
       }
-    };
+
+    }
+  );
+
+});
 
 
-    /* =========================================================
-       SCROLL BUTTONS
-    ========================================================= */
 
-    $$("[data-scroll]").forEach(button => {
-      button.addEventListener("click", () => {
-        const target = $(button.dataset.scroll);
+/* =========================================================
+   SAVE BASIC FIELDS
+========================================================= */
 
-        if (target) {
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }
-      });
-    });
+const basicFields = [
 
+  "aj-company",
+  "aj-role-name",
+  "aj-role-url",
+  "aj-description",
+  "aj-experience",
+  "aj-student-name",
+  "aj-school",
+  "aj-contact-name",
+  "aj-follow-person"
 
-    /* =========================================================
-       PASSIVE VS ACTIVE
-    ========================================================= */
-
-    $$("[data-choice]").forEach(choice => {
-      choice.addEventListener("click", () => {
-        choice.classList.toggle("active");
-
-        if (choice.dataset.task === "active-choice") {
-          localStorage.setItem("aj_active_choice", "1");
-          updateProgress();
-        }
-      });
-    });
+];
 
 
-    /* =========================================================
-       SAVE FORM BASICS
-    ========================================================= */
+basicFields.forEach(id => {
 
-    const basicFields = [
-      "aj-company",
-      "aj-role-name",
-      "aj-role-url",
-      "aj-description",
-      "aj-experience",
-      "aj-student-name",
-      "aj-school",
-      "aj-contact-name",
-      "aj-follow-person"
-    ];
+  const field =
+    $("#" + id);
 
-    basicFields.forEach(id => {
-      const field = $("#" + id);
-
-      if (!field) return;
-
-      const saved = localStorage.getItem("aj_" + id);
-
-      if (saved !== null) {
-        field.value = saved;
-      }
-
-      field.addEventListener("input", () => {
-        localStorage.setItem("aj_" + id, field.value);
-      });
-    });
+  if (!field) return;
 
 
-    /* =========================================================
-       TASK CHECKBOXES
-    ========================================================= */
-
-    $$(".aj-task").forEach(box => {
-      const key = "aj_task_" + box.dataset.task;
-
-      box.checked = localStorage.getItem(key) === "1";
-
-      box.addEventListener("change", () => {
-        localStorage.setItem(key, box.checked ? "1" : "0");
-        updateProgress();
-      });
-    });
+  const saved =
+    localStorage.getItem(
+      "aj_" + id
+    );
 
 
-    /* =========================================================
-       AI PROMPT
-    ========================================================= */
+  if (saved !== null) {
 
-    $("#aj-copy-ai").addEventListener("click", () => {
-      const desc = $("#aj-description").value.trim();
+    field.value =
+      saved;
 
-      const prompt =
+  }
+
+
+  field.addEventListener(
+    "input",
+    () => {
+
+      localStorage.setItem(
+        "aj_" + id,
+        field.value
+      );
+
+    }
+  );
+
+});
+
+
+
+/* =========================================================
+   TASK CHECKBOXES
+========================================================= */
+
+$$(".aj-task")
+.forEach(box => {
+
+  const key =
+    "aj_task_" +
+    box.dataset.task;
+
+
+  box.checked =
+    localStorage.getItem(key)
+    === "1";
+
+
+  box.addEventListener(
+    "change",
+    () => {
+
+      localStorage.setItem(
+        key,
+        box.checked
+          ? "1"
+          : "0"
+      );
+
+      updateProgress();
+
+    }
+  );
+
+});
+
+
+
+/* =========================================================
+   AI PROMPT
+========================================================= */
+
+$("#aj-copy-ai")
+.addEventListener(
+  "click",
+  () => {
+
+    const desc =
+      $("#aj-description")
+      .value
+      .trim();
+
+
+    const prompt =
 `Act as a resume and job-description analyst.
 
 Review the job description below and identify:
@@ -2110,86 +3339,223 @@ JOB DESCRIPTION:
 
 ${desc || "[Paste your job description here]"}`;
 
-      copyText(prompt, "AI prompt copied.");
 
-      $("#aj-ai-status").style.display = "block";
-    });
+    copyText(
+      prompt,
+      "AI prompt copied."
+    );
 
 
-    /* =========================================================
-       KEYWORDS
-    ========================================================= */
+    $("#aj-ai-status")
+      .style
+      .display =
+      "block";
 
-    let keywords = [];
+  }
+);
 
-    try {
-      keywords = JSON.parse(localStorage.getItem("aj_keywords") || "[]");
-    } catch (e) {
-      keywords = [];
-    }
 
-    const renderKeywords = () => {
-      const wrap = $("#aj-keywords");
-      wrap.innerHTML = "";
 
-      keywords.forEach((word, index) => {
-        const chip = document.createElement("span");
-        chip.className = "aj-chip";
+/* =========================================================
+   KEYWORDS
+========================================================= */
 
-        chip.innerHTML = `
-          ${escapeHtml(word)}
-          <button type="button" aria-label="Remove keyword">×</button>
+let keywords = [];
+
+
+try {
+
+  keywords =
+    JSON.parse(
+      localStorage.getItem(
+        "aj_keywords"
+      ) || "[]"
+    );
+
+}
+
+catch(e) {
+
+  keywords = [];
+
+}
+
+
+
+const renderKeywords =
+() => {
+
+  const wrap =
+    $("#aj-keywords");
+
+  wrap.innerHTML =
+    "";
+
+
+  keywords.forEach(
+    (word,index) => {
+
+      const chip =
+        document.createElement(
+          "span"
+        );
+
+
+      chip.className =
+        "aj-chip";
+
+
+      chip.innerHTML =
+        `
+        ${escapeHtml(word)}
+        <button
+          type="button"
+          aria-label="Remove keyword">
+          ×
+        </button>
         `;
 
-        chip.querySelector("button").addEventListener("click", () => {
-          keywords.splice(index, 1);
+
+      chip
+      .querySelector("button")
+      .addEventListener(
+        "click",
+        () => {
+
+          keywords.splice(
+            index,
+            1
+          );
+
           saveKeywords();
-        });
 
-        wrap.appendChild(chip);
-      });
-    };
-
-    const saveKeywords = () => {
-      localStorage.setItem("aj_keywords", JSON.stringify(keywords));
-      renderKeywords();
-    };
-
-    $("#aj-add-keyword").addEventListener("click", () => {
-      const field = $("#aj-keyword-input");
-      const value = field.value.trim();
-
-      if (!value) return;
-
-      if (!keywords.includes(value)) {
-        keywords.push(value);
-      }
-
-      field.value = "";
-      saveKeywords();
-    });
-
-    $("#aj-keyword-input").addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        $("#aj-add-keyword").click();
-      }
-    });
-
-    renderKeywords();
+        }
+      );
 
 
-    /* =========================================================
-       COVER LETTER PROMPT
-    ========================================================= */
+      wrap.appendChild(
+        chip
+      );
 
-    $("#aj-cover-prompt-btn").addEventListener("click", () => {
-      const company = $("#aj-company").value.trim() || "[Company]";
-      const role = $("#aj-role-name").value.trim() || "[Position]";
-      const desc = $("#aj-description").value.trim() || "[Job Description]";
-      const experience = $("#aj-experience").value.trim() || "[My Relevant Experience]";
+    }
+  );
 
-      const prompt =
+};
+
+
+
+const saveKeywords =
+() => {
+
+  localStorage.setItem(
+    "aj_keywords",
+    JSON.stringify(keywords)
+  );
+
+  renderKeywords();
+
+};
+
+
+
+$("#aj-add-keyword")
+.addEventListener(
+  "click",
+  () => {
+
+    const field =
+      $("#aj-keyword-input");
+
+    const value =
+      field.value.trim();
+
+
+    if (!value) return;
+
+
+    if (
+      !keywords.includes(value)
+    ) {
+
+      keywords.push(
+        value
+      );
+
+    }
+
+
+    field.value =
+      "";
+
+    saveKeywords();
+
+  }
+);
+
+
+
+$("#aj-keyword-input")
+.addEventListener(
+  "keydown",
+  e => {
+
+    if (
+      e.key === "Enter"
+    ) {
+
+      e.preventDefault();
+
+      $("#aj-add-keyword")
+      .click();
+
+    }
+
+  }
+);
+
+
+renderKeywords();
+
+
+
+/* =========================================================
+   COVER LETTER
+========================================================= */
+
+$("#aj-cover-prompt-btn")
+.addEventListener(
+  "click",
+  () => {
+
+    const company =
+      $("#aj-company")
+      .value
+      .trim()
+      || "[Company]";
+
+
+    const role =
+      $("#aj-role-name")
+      .value
+      .trim()
+      || "[Position]";
+
+
+    const desc =
+      $("#aj-description")
+      .value
+      .trim()
+      || "[Job Description]";
+
+
+    const experience =
+      $("#aj-experience")
+      .value
+      .trim()
+      || "[My Relevant Experience]";
+
+
+    const prompt =
 `Help me draft a customized cover letter for the ${role} role at ${company}.
 
 JOB DESCRIPTION:
@@ -2209,122 +3575,299 @@ Please:
 
 The final letter should sound like me, not like generic AI-generated copy.`;
 
-      copyText(prompt, "Cover letter prompt copied.");
 
-      $("#aj-cover-status").style.display = "block";
-    });
+    copyText(
+      prompt,
+      "Cover letter prompt copied."
+    );
 
 
-    /* =========================================================
-       CONNECTION NOTE
-    ========================================================= */
+    $("#aj-cover-status")
+      .style
+      .display =
+      "block";
 
-    const buildConnectionNote = () => {
-      const name = $("#aj-student-name").value.trim();
-      const school = $("#aj-school").value.trim();
-      const contact = $("#aj-contact-name").value.trim();
-      const company = $("#aj-company").value.trim();
-      const role = $("#aj-role-name").value.trim();
+  }
+);
 
-      let note = "";
 
-      if (contact) {
-        note += `Hi ${contact}, `;
-      } else {
-        note += "Hi, ";
-      }
 
-      note += `I'm ${name || "a student"}`;
+/* =========================================================
+   CONNECTION NOTE
+========================================================= */
 
-      if (school) {
-        note += ` at ${school}`;
-      }
+const buildConnectionNote =
+() => {
 
-      if (company) {
-        note += ` and I'm currently exploring opportunities with ${company}`;
-      }
+  const name =
+    $("#aj-student-name")
+    .value
+    .trim();
 
-      if (role) {
-        note += `, including a ${role} position`;
-      }
 
-      note += `. I'd love to connect and learn more about your experience with the organization.`;
+  const school =
+    $("#aj-school")
+    .value
+    .trim();
 
-      $("#aj-connect-preview").textContent = note;
 
-      localStorage.setItem("aj_connection_note", note);
+  const contact =
+    $("#aj-contact-name")
+    .value
+    .trim();
 
-      return note;
-    };
 
-    $("#aj-build-connect").addEventListener("click", () => {
+  const company =
+    $("#aj-company")
+    .value
+    .trim();
+
+
+  const role =
+    $("#aj-role-name")
+    .value
+    .trim();
+
+
+  let note = "";
+
+
+  if (contact) {
+
+    note +=
+      `Hi ${contact}, `;
+
+  }
+
+  else {
+
+    note +=
+      "Hi, ";
+
+  }
+
+
+  note +=
+    `I'm ${name || "a student"}`;
+
+
+  if (school) {
+
+    note +=
+      ` at ${school}`;
+
+  }
+
+
+  if (company) {
+
+    note +=
+      ` and I'm currently exploring opportunities with ${company}`;
+
+  }
+
+
+  if (role) {
+
+    note +=
+      `, including a ${role} position`;
+
+  }
+
+
+  note +=
+    `. I'd love to connect and learn more about your experience with the organization.`;
+
+
+  $("#aj-connect-preview")
+    .textContent =
+    note;
+
+
+  localStorage.setItem(
+    "aj_connection_note",
+    note
+  );
+
+
+  return note;
+
+};
+
+
+
+$("#aj-build-connect")
+.addEventListener(
+  "click",
+  () => {
+
+    buildConnectionNote();
+
+    toast(
+      "Connection note built."
+    );
+
+  }
+);
+
+
+
+$("#aj-copy-connect")
+.addEventListener(
+  "click",
+  () => {
+
+    const note =
+      localStorage.getItem(
+        "aj_connection_note"
+      )
+      ||
       buildConnectionNote();
-      toast("Connection note built.");
-    });
-
-    $("#aj-copy-connect").addEventListener("click", () => {
-      const note =
-        localStorage.getItem("aj_connection_note") ||
-        buildConnectionNote();
-
-      copyText(note, "Connection note copied.");
-    });
-
-    const savedConnection = localStorage.getItem("aj_connection_note");
-
-    if (savedConnection) {
-      $("#aj-connect-preview").textContent = savedConnection;
-    }
 
 
-    /* =========================================================
-       FOLLOW-UP DATE
-    ========================================================= */
+    copyText(
+      note,
+      "Connection note copied."
+    );
 
-    const dateField = $("#aj-applied-date");
+  }
+);
 
-    if (localStorage.getItem("aj_applied_date")) {
-      dateField.value = localStorage.getItem("aj_applied_date");
-    }
 
-    const updateFollowDate = () => {
-      const value = dateField.value;
 
-      localStorage.setItem("aj_applied_date", value);
+const savedConnection =
+  localStorage.getItem(
+    "aj_connection_note"
+  );
 
-      if (!value) {
-        $("#aj-followup-date").textContent =
-          "Choose your application date.";
-        return;
+
+if (savedConnection) {
+
+  $("#aj-connect-preview")
+  .textContent =
+    savedConnection;
+
+}
+
+
+
+/* =========================================================
+   FOLLOW-UP DATE
+========================================================= */
+
+const dateField =
+  $("#aj-applied-date");
+
+
+if (
+  localStorage.getItem(
+    "aj_applied_date"
+  )
+) {
+
+  dateField.value =
+    localStorage.getItem(
+      "aj_applied_date"
+    );
+
+}
+
+
+
+const updateFollowDate =
+() => {
+
+  const value =
+    dateField.value;
+
+
+  localStorage.setItem(
+    "aj_applied_date",
+    value
+  );
+
+
+  if (!value) {
+
+    $("#aj-followup-date")
+    .textContent =
+      "Choose your application date.";
+
+    return;
+
+  }
+
+
+  const date =
+    new Date(
+      value +
+      "T12:00:00"
+    );
+
+
+  date.setDate(
+    date.getDate() + 7
+  );
+
+
+  const formatted =
+    date.toLocaleDateString(
+      undefined,
+      {
+        weekday:"long",
+        month:"long",
+        day:"numeric",
+        year:"numeric"
       }
-
-      const date = new Date(value + "T12:00:00");
-      date.setDate(date.getDate() + 7);
-
-      const formatted = date.toLocaleDateString(undefined, {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric"
-      });
-
-      $("#aj-followup-date").textContent = formatted;
-    };
-
-    dateField.addEventListener("change", updateFollowDate);
-    updateFollowDate();
+    );
 
 
-    /* =========================================================
-       FOLLOW-UP MESSAGE
-    ========================================================= */
+  $("#aj-followup-date")
+  .textContent =
+    formatted;
 
-    const buildFollowUp = () => {
-      const person = $("#aj-follow-person").value.trim();
-      const company = $("#aj-company").value.trim() || "your organization";
-      const role = $("#aj-role-name").value.trim() || "the position";
+};
 
-      const message =
+
+
+dateField.addEventListener(
+  "change",
+  updateFollowDate
+);
+
+
+updateFollowDate();
+
+
+
+/* =========================================================
+   FOLLOW-UP MESSAGE
+========================================================= */
+
+const buildFollowUp =
+() => {
+
+  const person =
+    $("#aj-follow-person")
+    .value
+    .trim();
+
+
+  const company =
+    $("#aj-company")
+    .value
+    .trim()
+    || "your organization";
+
+
+  const role =
+    $("#aj-role-name")
+    .value
+    .trim()
+    || "the position";
+
+
+  const message =
 `${person ? "Hi " + person + "," : "Hello,"}
 
 I recently applied for the ${role} role with ${company} and wanted to follow up on my application.
@@ -2333,413 +3876,913 @@ I'm very interested in learning more about the opportunity and the team. If you'
 
 Thank you for your time!`;
 
-      $("#aj-follow-preview").textContent = message;
 
-      localStorage.setItem("aj_follow_message", message);
+  $("#aj-follow-preview")
+  .textContent =
+    message;
 
-      return message;
-    };
 
-    $("#aj-build-follow").addEventListener("click", () => {
+  localStorage.setItem(
+    "aj_follow_message",
+    message
+  );
+
+
+  return message;
+
+};
+
+
+
+$("#aj-build-follow")
+.addEventListener(
+  "click",
+  () => {
+
+    buildFollowUp();
+
+    toast(
+      "Follow-up built."
+    );
+
+  }
+);
+
+
+
+$("#aj-copy-follow")
+.addEventListener(
+  "click",
+  () => {
+
+    const message =
+      localStorage.getItem(
+        "aj_follow_message"
+      )
+      ||
       buildFollowUp();
-      toast("Follow-up built.");
-    });
-
-    $("#aj-copy-follow").addEventListener("click", () => {
-      const message =
-        localStorage.getItem("aj_follow_message") ||
-        buildFollowUp();
-
-      copyText(message, "Follow-up copied.");
-    });
-
-    const savedFollow = localStorage.getItem("aj_follow_message");
-
-    if (savedFollow) {
-      $("#aj-follow-preview").textContent = savedFollow;
-    }
 
 
-    /* =========================================================
-       JOB TRACKER
-    ========================================================= */
+    copyText(
+      message,
+      "Follow-up copied."
+    );
 
-    let applications = [];
+  }
+);
 
-    try {
-      applications =
-        JSON.parse(localStorage.getItem("aj_applications") || "[]");
-    } catch (e) {
-      applications = [];
-    }
 
-    const saveApplications = () => {
-      localStorage.setItem(
-        "aj_applications",
-        JSON.stringify(applications)
+
+const savedFollow =
+  localStorage.getItem(
+    "aj_follow_message"
+  );
+
+
+if (savedFollow) {
+
+  $("#aj-follow-preview")
+  .textContent =
+    savedFollow;
+
+}
+
+
+
+/* =========================================================
+   APPLICATION TRACKER
+========================================================= */
+
+let applications = [];
+
+
+try {
+
+  applications =
+    JSON.parse(
+      localStorage.getItem(
+        "aj_applications"
+      ) || "[]"
+    );
+
+}
+
+catch(e) {
+
+  applications = [];
+
+}
+
+
+
+const saveApplications =
+() => {
+
+  localStorage.setItem(
+    "aj_applications",
+    JSON.stringify(
+      applications
+    )
+  );
+
+
+  renderApplications();
+
+  updateProgress();
+
+};
+
+
+
+const renderApplications =
+() => {
+
+  const body =
+    $("#aj-tracker-body");
+
+
+  body.innerHTML =
+    "";
+
+
+  if (
+    !applications.length
+  ) {
+
+    body.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="7"
+          class="aj-empty">
+          Your tracker is empty.
+          Add your first application above.
+        </td>
+      </tr>
+      `;
+
+
+    $("#aj-summary-apps")
+    .textContent =
+      "0";
+
+
+    return;
+
+  }
+
+
+  applications.forEach(
+    (app,index) => {
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.innerHTML =
+        `
+        <td>${escapeHtml(app.company)}</td>
+        <td>${escapeHtml(app.role)}</td>
+        <td>${escapeHtml(app.date)}</td>
+        <td>${escapeHtml(app.contact)}</td>
+
+        <td>
+          ${
+            app.url
+            ?
+            `<a
+               href="${escapeAttribute(app.url)}"
+               target="_blank"
+               rel="noopener">
+               Open
+             </a>`
+            :
+            "—"
+          }
+        </td>
+
+        <td>${escapeHtml(app.status)}</td>
+
+        <td>
+          <button
+            class="aj-delete"
+            type="button">
+            Remove
+          </button>
+        </td>
+        `;
+
+
+      row
+      .querySelector(
+        ".aj-delete"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          applications.splice(
+            index,
+            1
+          );
+
+          saveApplications();
+
+        }
       );
 
-      renderApplications();
-      updateProgress();
-    };
 
-    const renderApplications = () => {
-      const body = $("#aj-tracker-body");
-      body.innerHTML = "";
+      body.appendChild(
+        row
+      );
 
-      if (!applications.length) {
-        body.innerHTML = `
-          <tr>
-            <td colspan="7" class="aj-empty">
-              Your tracker is empty. Add your first application above.
-            </td>
-          </tr>
-        `;
+    }
+  );
 
-        $("#aj-summary-apps").textContent = "0";
-        return;
-      }
 
-      applications.forEach((app, index) => {
-        const row = document.createElement("tr");
+  $("#aj-summary-apps")
+  .textContent =
+    applications.length;
 
-        row.innerHTML = `
-          <td>${escapeHtml(app.company)}</td>
-          <td>${escapeHtml(app.role)}</td>
-          <td>${escapeHtml(app.date)}</td>
-          <td>${escapeHtml(app.contact)}</td>
-          <td>
-            ${
-              app.url
-              ? `<a href="${escapeAttribute(app.url)}" target="_blank" rel="noopener">Open</a>`
-              : "—"
-            }
-          </td>
-          <td>${escapeHtml(app.status)}</td>
-          <td>
-            <button class="aj-delete" type="button">Remove</button>
-          </td>
-        `;
+};
 
-        row.querySelector(".aj-delete").addEventListener("click", () => {
-          applications.splice(index, 1);
-          saveApplications();
-        });
 
-        body.appendChild(row);
-      });
 
-      $("#aj-summary-apps").textContent = applications.length;
-    };
+$("#aj-add-application")
+.addEventListener(
+  "click",
+  () => {
 
-    $("#aj-add-application").addEventListener("click", () => {
-      const company = $("#aj-track-company").value.trim();
-      const role = $("#aj-track-role").value.trim();
+    const company =
+      $("#aj-track-company")
+      .value
+      .trim();
 
-      if (!company || !role) {
-        toast("Add a company and position first.");
-        return;
-      }
 
-      applications.push({
-        company,
-        role,
-        date: $("#aj-track-date").value,
-        contact: $("#aj-track-contact").value.trim(),
-        url: $("#aj-track-url").value.trim(),
-        status: $("#aj-track-status").value
-      });
+    const role =
+      $("#aj-track-role")
+      .value
+      .trim();
 
-      saveApplications();
 
-      $("#aj-track-company").value = "";
-      $("#aj-track-role").value = "";
-      $("#aj-track-date").value = "";
-      $("#aj-track-contact").value = "";
-      $("#aj-track-url").value = "";
-      $("#aj-track-status").value = "Applied";
+    if (
+      !company ||
+      !role
+    ) {
 
-      toast("Application added to your tracker.");
+      toast(
+        "Add a company and position first."
+      );
+
+      return;
+
+    }
+
+
+    applications.push({
+
+      company,
+
+      role,
+
+      date:
+        $("#aj-track-date")
+        .value,
+
+      contact:
+        $("#aj-track-contact")
+        .value
+        .trim(),
+
+      url:
+        $("#aj-track-url")
+        .value
+        .trim(),
+
+      status:
+        $("#aj-track-status")
+        .value
+
     });
 
-    $("#aj-export-csv").addEventListener("click", () => {
-      if (!applications.length) {
-        toast("Add an application before exporting.");
-        return;
-      }
 
-      const rows = [
-        ["Company","Position","Applied","Contact","URL","Status"],
-        ...applications.map(app => [
+    saveApplications();
+
+
+    $("#aj-track-company").value = "";
+    $("#aj-track-role").value = "";
+    $("#aj-track-date").value = "";
+    $("#aj-track-contact").value = "";
+    $("#aj-track-url").value = "";
+    $("#aj-track-status").value = "Applied";
+
+
+    toast(
+      "Application added to your tracker."
+    );
+
+  }
+);
+
+
+
+$("#aj-export-csv")
+.addEventListener(
+  "click",
+  () => {
+
+    if (
+      !applications.length
+    ) {
+
+      toast(
+        "Add an application before exporting."
+      );
+
+      return;
+
+    }
+
+
+    const rows = [
+
+      [
+        "Company",
+        "Position",
+        "Applied",
+        "Contact",
+        "URL",
+        "Status"
+      ],
+
+      ...applications.map(
+        app => [
+
           app.company,
           app.role,
           app.date,
           app.contact,
           app.url,
           app.status
-        ])
-      ];
 
-      const csv = rows
-        .map(row =>
+        ]
+      )
+
+    ];
+
+
+    const csv =
+      rows
+      .map(
+        row =>
           row
-            .map(value =>
-              `"${String(value || "").replace(/"/g, '""')}"`
-            )
-            .join(",")
-        )
-        .join("\n");
-
-      const blob = new Blob([csv], {
-        type: "text/csv;charset=utf-8;"
-      });
-
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "job-search-tracker.csv";
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      URL.revokeObjectURL(url);
-
-      toast("Tracker exported.");
-    });
-
-    renderApplications();
+          .map(
+            value =>
+              `"${String(value || "")
+              .replace(/"/g,'""')}"`
+          )
+          .join(",")
+      )
+      .join("\n");
 
 
-    /* =========================================================
-       PIPELINE
-    ========================================================= */
-
-    const pipelineRange = $("#aj-pipeline-range");
-
-    const savedPipeline =
-      localStorage.getItem("aj_pipeline_value");
-
-    if (savedPipeline !== null) {
-      pipelineRange.value = savedPipeline;
-    }
-
-    const updatePipeline = () => {
-      const count = Number(pipelineRange.value);
-
-      localStorage.setItem("aj_pipeline_value", count);
-
-      $("#aj-pipeline-number").textContent = count;
-
-      $$(".aj-pipe-slot").forEach((slot, index) => {
-        slot.classList.toggle("on", index < count);
-      });
-
-      const title = $("#aj-pipeline-message");
-      const copy = $("#aj-pipeline-copy");
-
-      if (count === 0) {
-        title.textContent = "Start building your pipeline.";
-        copy.textContent =
-          "One opportunity can disappear unexpectedly. Keep searching while existing applications move forward.";
-      }
-
-      if (count === 1) {
-        title.textContent = "Good start. Don't stop here.";
-        copy.textContent =
-          "One active application is progress, but it still leaves your search dependent on a single employer.";
-      }
-
-      if (count >= 2 && count <= 3) {
-        title.textContent = "Your pipeline is taking shape.";
-        copy.textContent =
-          "Keep each opportunity organized and continue adding realistic options.";
-      }
-
-      if (count >= 4) {
-        title.textContent = "Now you're running an active search.";
-        copy.textContent =
-          "Stay organized, prepare for interviews, follow up thoughtfully, and keep the process moving.";
-      }
-    };
-
-    pipelineRange.addEventListener("input", updatePipeline);
-    updatePipeline();
-
-
-    /* =========================================================
-       QUIZ
-    ========================================================= */
-
-    let quizAnswers = {};
-
-    try {
-      quizAnswers =
-        JSON.parse(localStorage.getItem("aj_quiz") || "{}");
-    } catch (e) {
-      quizAnswers = {};
-    }
-
-    const questions = $$("[data-question]");
-
-    questions.forEach((question, qIndex) => {
-      const answers = Array.from(
-        question.querySelectorAll(".aj-answer")
-      );
-
-      const feedback = question.querySelector(".aj-feedback");
-
-      answers.forEach((answer, aIndex) => {
-        answer.addEventListener("click", () => {
-
-          if (quizAnswers[qIndex] !== undefined) return;
-
-          const correct = answer.dataset.correct === "true";
-
-          quizAnswers[qIndex] = {
-            selected: aIndex,
-            correct
-          };
-
-          localStorage.setItem(
-            "aj_quiz",
-            JSON.stringify(quizAnswers)
-          );
-
-          if (correct) {
-            answer.classList.add("correct");
-            feedback.textContent = "✓ Correct.";
-            feedback.style.color = "var(--green)";
-          } else {
-            answer.classList.add("wrong");
-            feedback.textContent =
-              "Not quite. Look for the answer that reflects an active, relationship-based search.";
-            feedback.style.color = "var(--red)";
-          }
-
-          feedback.style.display = "block";
-
-          updateQuizSummary();
-          updateProgress();
-        });
-      });
-
-      const saved = quizAnswers[qIndex];
-
-      if (saved !== undefined) {
-        const selectedAnswer = answers[saved.selected];
-
-        if (selectedAnswer) {
-          selectedAnswer.classList.add(
-            saved.correct ? "correct" : "wrong"
-          );
-
-          feedback.textContent = saved.correct
-            ? "✓ Correct."
-            : "Not quite. Look for the answer that reflects an active, relationship-based search.";
-
-          feedback.style.color = saved.correct
-            ? "var(--green)"
-            : "var(--red)";
-
-          feedback.style.display = "block";
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type:
+            "text/csv;charset=utf-8;"
         }
-      }
-    });
-
-    const updateQuizSummary = () => {
-      const correct = Object.values(quizAnswers)
-        .filter(answer => answer.correct)
-        .length;
-
-      $("#aj-summary-quiz").textContent =
-        `${correct}/${questions.length}`;
-    };
-
-    updateQuizSummary();
-
-
-    /* =========================================================
-       PROGRESS
-    ========================================================= */
-
-    function updateProgress() {
-      const tasks = $$(".aj-task");
-
-      let completed =
-        tasks.filter(task => task.checked).length;
-
-      let available = tasks.length;
-
-      /* Active search reveal */
-      available += 1;
-
-      if (localStorage.getItem("aj_active_choice") === "1") {
-        completed += 1;
-      }
-
-      /* Application tracker */
-      available += 1;
-
-      if (applications.length) {
-        completed += 1;
-      }
-
-      /* Quiz questions */
-      available += questions.length;
-      completed += Object.keys(quizAnswers).length;
-
-      const percent = Math.round(
-        (completed / available) * 100
       );
 
-      $("#aj-progress-bar").style.width = percent + "%";
-      $("#aj-progress-percent").textContent = percent + "%";
-      $("#aj-summary-progress").textContent = percent + "%";
-      $("#aj-summary-apps").textContent = applications.length;
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      "job-search-tracker.csv";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+
+    URL.revokeObjectURL(
+      url
+    );
+
+
+    toast(
+      "Tracker exported."
+    );
+
+  }
+);
+
+
+renderApplications();
+
+
+
+/* =========================================================
+   PIPELINE
+========================================================= */
+
+const pipelineRange =
+  $("#aj-pipeline-range");
+
+
+const savedPipeline =
+  localStorage.getItem(
+    "aj_pipeline_value"
+  );
+
+
+if (
+  savedPipeline !== null
+) {
+
+  pipelineRange.value =
+    savedPipeline;
+
+}
+
+
+
+const updatePipeline =
+() => {
+
+  const count =
+    Number(
+      pipelineRange.value
+    );
+
+
+  localStorage.setItem(
+    "aj_pipeline_value",
+    count
+  );
+
+
+  $("#aj-pipeline-number")
+  .textContent =
+    count;
+
+
+  $$(".aj-pipe-slot")
+  .forEach(
+    (slot,index) => {
+
+      slot.classList.toggle(
+        "on",
+        index < count
+      );
+
+    }
+  );
+
+
+  const title =
+    $("#aj-pipeline-message");
+
+
+  const copy =
+    $("#aj-pipeline-copy");
+
+
+  if (count === 0) {
+
+    title.textContent =
+      "Start building your pipeline.";
+
+    copy.textContent =
+      "One opportunity can disappear unexpectedly. Keep searching while existing applications move forward.";
+
+  }
+
+
+  if (count === 1) {
+
+    title.textContent =
+      "Good start. Don't stop here.";
+
+    copy.textContent =
+      "One active opportunity is progress, but your search still depends on a single employer.";
+
+  }
+
+
+  if (
+    count >= 2 &&
+    count <= 3
+  ) {
+
+    title.textContent =
+      "Your pipeline is taking shape.";
+
+    copy.textContent =
+      "Keep each opportunity organized and continue adding realistic options.";
+
+  }
+
+
+  if (
+    count >= 4
+  ) {
+
+    title.textContent =
+      "Now you're building momentum.";
+
+    copy.textContent =
+      "Stay organized, prepare for interviews, follow up thoughtfully, and keep the process moving.";
+
+  }
+
+};
+
+
+
+pipelineRange
+.addEventListener(
+  "input",
+  updatePipeline
+);
+
+
+updatePipeline();
+
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+let quizAnswers = {};
+
+
+try {
+
+  quizAnswers =
+    JSON.parse(
+      localStorage.getItem(
+        "aj_quiz"
+      ) || "{}"
+    );
+
+}
+
+catch(e) {
+
+  quizAnswers = {};
+
+}
+
+
+
+const questions =
+  $$("[data-question]");
+
+
+
+questions.forEach(
+  (question,qIndex) => {
+
+    const answers =
+      Array.from(
+        question.querySelectorAll(
+          ".aj-answer"
+        )
+      );
+
+
+    const feedback =
+      question.querySelector(
+        ".aj-feedback"
+      );
+
+
+    answers.forEach(
+      (answer,aIndex) => {
+
+        answer.addEventListener(
+          "click",
+          () => {
+
+            if (
+              quizAnswers[qIndex]
+              !== undefined
+            ) return;
+
+
+            const correct =
+              answer.dataset.correct
+              === "true";
+
+
+            quizAnswers[qIndex] = {
+
+              selected:aIndex,
+              correct
+
+            };
+
+
+            localStorage.setItem(
+              "aj_quiz",
+              JSON.stringify(
+                quizAnswers
+              )
+            );
+
+
+            if (correct) {
+
+              answer.classList.add(
+                "correct"
+              );
+
+              feedback.textContent =
+                "✓ Correct.";
+
+              feedback.style.color =
+                "var(--green)";
+
+            }
+
+            else {
+
+              answer.classList.add(
+                "wrong"
+              );
+
+              feedback.textContent =
+                "Not quite. Try thinking about what keeps the search active and connected.";
+
+              feedback.style.color =
+                "var(--red)";
+
+            }
+
+
+            feedback.style.display =
+              "block";
+
+
+            updateQuizSummary();
+
+            updateProgress();
+
+          }
+        );
+
+      }
+    );
+
+
+    const saved =
+      quizAnswers[qIndex];
+
+
+    if (
+      saved !== undefined
+    ) {
+
+      const selectedAnswer =
+        answers[
+          saved.selected
+        ];
+
+
+      if (selectedAnswer) {
+
+        selectedAnswer.classList.add(
+          saved.correct
+          ? "correct"
+          : "wrong"
+        );
+
+
+        feedback.textContent =
+          saved.correct
+          ? "✓ Correct."
+          : "Not quite. Try thinking about what keeps the search active and connected.";
+
+
+        feedback.style.color =
+          saved.correct
+          ? "var(--green)"
+          : "var(--red)";
+
+
+        feedback.style.display =
+          "block";
+
+      }
+
     }
 
-    updateProgress();
+  }
+);
 
 
-    /* =========================================================
-       RESET
-    ========================================================= */
 
-    $("#aj-reset-course").addEventListener("click", () => {
-      const shouldReset = window.confirm(
+const updateQuizSummary =
+() => {
+
+  const correct =
+    Object
+    .values(
+      quizAnswers
+    )
+    .filter(
+      answer =>
+        answer.correct
+    )
+    .length;
+
+
+  $("#aj-summary-quiz")
+  .textContent =
+    `${correct}/${questions.length}`;
+
+};
+
+
+updateQuizSummary();
+
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function updateProgress() {
+
+  const tasks =
+    $$(".aj-task");
+
+
+  let completed =
+    tasks
+    .filter(
+      task =>
+        task.checked
+    )
+    .length;
+
+
+  let available =
+    tasks.length;
+
+
+  /* Tracker */
+  available += 1;
+
+
+  if (
+    applications.length
+  ) {
+
+    completed += 1;
+
+  }
+
+
+  /* Quiz */
+  available +=
+    questions.length;
+
+
+  completed +=
+    Object.keys(
+      quizAnswers
+    )
+    .length;
+
+
+  const percent =
+    Math.round(
+      (completed / available)
+      * 100
+    );
+
+
+  $("#aj-progress-bar")
+  .style
+  .width =
+    percent + "%";
+
+
+  $("#aj-progress-percent")
+  .textContent =
+    percent + "%";
+
+
+  $("#aj-summary-progress")
+  .textContent =
+    percent + "%";
+
+
+  $("#aj-summary-apps")
+  .textContent =
+    applications.length;
+
+}
+
+
+updateProgress();
+
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+$("#aj-reset-course")
+.addEventListener(
+  "click",
+  () => {
+
+    const shouldReset =
+      window.confirm(
         "Reset your Active Job Search Lab? This will remove your saved responses and tracker from this browser."
       );
 
-      if (!shouldReset) return;
 
-      Object.keys(localStorage)
-        .filter(key => key.startsWith("aj_"))
-        .forEach(key => localStorage.removeItem(key));
-
-      window.location.reload();
-    });
+    if (!shouldReset) return;
 
 
-    /* =========================================================
-       ESCAPE HELPERS
-    ========================================================= */
+    Object
+    .keys(localStorage)
+    .filter(
+      key =>
+        key.startsWith(
+          "aj_"
+        )
+    )
+    .forEach(
+      key =>
+        localStorage.removeItem(
+          key
+        )
+    );
 
-    function escapeHtml(value) {
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
 
-    function escapeAttribute(value) {
-      return escapeHtml(value);
-    }
+    window.location.reload();
 
-  })();
-  </script>
+  }
+);
+
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(
+    value || ""
+  )
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHtml(value);
+
+}
+
+
+})();
+</script>
 
 </div>
